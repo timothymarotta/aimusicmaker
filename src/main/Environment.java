@@ -25,6 +25,7 @@ public class Environment {
         String filename = in.nextLine();
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents
+
         writeToFile(numberOfBars, filename);
         System.out.println("Done.");
     }
