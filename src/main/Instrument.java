@@ -7,6 +7,14 @@ public class Instrument {
     boolean reverb;
     ArrayList<Note> notes;
 
+    public Instrument(int instrumentIdIn){
+        this.instrumentId = instrumentIdIn;
+        this.volume = 1;
+        this.delay = false;
+        this.reverb = false;
+        this.notes = new ArrayList<>();
+    }
+
     private void setDefaultValues(){
         this.instrumentId = 0;
         this.volume = 1;
