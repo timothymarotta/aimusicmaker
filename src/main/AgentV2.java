@@ -44,9 +44,12 @@ public class AgentV2 implements AgentIF {
         //Instrument info
         for(int i=0; i<instruments.size(); i++){
             Instrument currInstrument = instruments.get(i);
-            toReturn = toReturn + "\"" + currInstrument.instrumentId + "\":{\"volume\":" + currInstrument.volume + ",\"delay\":" + currInstrument.delay + ",\"reverb\":" + currInstrument.reverb + "}}";
+            toReturn = toReturn + "\"" + currInstrument.instrumentId + "\":{\"volume\":" + currInstrument.volume + ",\"delay\":" + currInstrument.delay + ",\"reverb\":" + currInstrument.reverb + "}";
+            if (i <instruments.size()-1){
+                toReturn += ",";
+            }
         }
-        toReturn = toReturn + "}|" + bpm + "|";
+        toReturn = toReturn + "}}|" + bpm + "|";
 
         //Note Info
         for(int i=0; i<instruments.size(); i++){
