@@ -35,6 +35,7 @@ public class Instrument {
     }
 
     public void addNote(Note noteIn){
+        //TODO with this, the instrumentId of the note might not match the instrumentId of the instrument!
         notes.add(noteIn);
     }
 
