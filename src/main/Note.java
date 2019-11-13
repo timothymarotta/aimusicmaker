@@ -1,13 +1,13 @@
 public class Note {
     int startPosition;
-    String note;
-    int length;
+    String pitch;
+    int duration;
     int instrumentId;
 
-    public Note(int startPosition, String note, int length, int instrumentId){
+    public Note(int startPosition, String pitch, int duration, int instrumentId){
         this.startPosition = startPosition;
-        this.note = note;
-        this.length = length;
+        this.pitch = pitch;
+        this.duration = duration;
         this.instrumentId = instrumentId;
     }
 
@@ -19,20 +19,20 @@ public class Note {
         this.startPosition = startPosition;
     }
 
-    public String getNote() {
-        return note;
+    public String getPitch() {
+        return pitch;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setPitch(String pitch) {
+        this.pitch = pitch;
     }
 
-    public int getLength() {
-        return length;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public int getInstrumentId() {
