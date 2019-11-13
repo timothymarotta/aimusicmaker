@@ -7,8 +7,19 @@ public class Instrument {
     boolean reverb;
     ArrayList<Note> notes;
 
-    private void setDefaultValues(){
-        this.instrumentId = 0;
+    public Instrument(int instrumentId){
+        setDefaultValues(instrumentId);
+    }
+    public Instrument(int instrumentId, int volume, boolean delay, boolean reverb){
+        this.instrumentId = instrumentId;
+        this.volume = volume;
+        this.delay = delay;
+        this.reverb = reverb;
+        this.notes = new ArrayList<>();
+    }
+
+    private void setDefaultValues(int instrumentId){
+        this.instrumentId = instrumentId;
         this.volume = 1;
         this.delay = false;
         this.reverb = false;
@@ -23,8 +34,10 @@ public class Instrument {
         notes.add(new Note(startPosition, note, length, instrumentId));
     }
 
-    public Instrument(){
-        setDefaultValues();
+    public void addNote(Note noteIn){
+        notes.add(noteIn);
     }
+
+
 
 }
