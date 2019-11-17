@@ -31,4 +31,29 @@ public class resourcesTest {
         assertTrue(equal<(i/2));
 
     }
+
+    @Test
+    public void getSnarePitchTest(){
+        String allPitches[] = new String[]{"E3", "D3"};
+        List<String> list = Arrays.asList(allPitches);
+
+        String pitch1 = Resources.getSnarePitch();
+        assertTrue(list.contains(pitch1));
+
+        boolean equal = false;
+        int i = 0;
+
+        while(i<10 && equal == false){
+            String pitch2 = Resources.getHiHatPitch();
+            if(pitch1 == pitch2){
+                equal = true;
+            }
+            i++;
+        }
+
+        assertTrue(i<11);
+
+    }
+
+
 }

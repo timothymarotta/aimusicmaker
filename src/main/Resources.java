@@ -53,15 +53,18 @@ public class Resources {
         return list.get(rand.nextInt(list.size()));
     }
 
-//    public String getSnarePitch(){
+    public static String getSnarePitch(){
+        String allPitches[] = new String[]{"E3", "D3"};
+        List<String> list = Arrays.asList(allPitches);
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
+
+//    public static String getKickPitch(){
 //
 //    }
 //
-//    public String getKickPitch(){
-//
-//    }
-//
-//    public String getMiscellanious(){
+//    public static String getMiscellanious(){
 //
 //    }
 
