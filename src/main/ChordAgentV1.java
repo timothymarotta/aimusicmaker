@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChordAgentV1 implements AgentIF {
 
@@ -9,8 +10,14 @@ public class ChordAgentV1 implements AgentIF {
     @Override
     public String makeMusic(int number_of_bars) {
 
-        //Ex: key = "Cmajor"
+        //set the key Ex: key = "Cmajor"
         String key = Resources.getRandomKey();
+
+        //generate a chord progression Ex: {"I", 'iii", "V" 'IV"}
+        //for now, it will be hardcoded
+
+        String cp[] = new String[]{"I", "iii", "V", "IV"};
+        ArrayList<String> chordProgression = new ArrayList<String>(Arrays.asList("I", "iii", "V", "IV"));
 
         //this assumes there will be one chord per bar
 //        ArrayList<String> chordProgression = new ArrayList<>();
