@@ -8,6 +8,10 @@ public class Resources {
         createChordReference();
     }
 
+    public static String getRandomKey() {
+        return "H-";
+    }
+
     private void createNoteReference(){
         //TODO find a better way to initialize the note reference ArrayList?
         noteReference.add("C");
