@@ -66,9 +66,12 @@ public class Resources {
         return list.get(rand.nextInt(list.size()));
     }
 
-//    public static String getMiscellanious(){
-//
-//    }
+    public static String getMiscellaniousPitch(){
+        String allPitches[] = new String[]{"C7", "B6", "A6", "G6", "F#6", "C6", "B5", "A#4", "F4", "D#3", "A#2", "F#2", "F2", "E2"};
+        List<String> list = Arrays.asList(allPitches);
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
 
 
 }
