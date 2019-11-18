@@ -70,5 +70,28 @@ public class Resources {
 //
 //    }
 
+    public static String toString(ArrayList<Instrument> instruments, int bpm){
+        assert instruments.size() > 0;
+        String toReturn = "{\"instruments\":{";
+
+        //Instrument info
+        for(int i=0; i<instruments.size(); i++){
+            Instrument currInstrument = instruments.get(i);
+            toReturn = toReturn + "\"" + currInstrument.instrumentId + "\":{\"volume\":" + currInstrument.volume + ",\"delay\":" + currInstrument.delay + ",\"reverb\":" + currInstrument.reverb + "}";
+            if (i <instruments.size()-1){
+                toReturn += ",";
+            }
+        }
+        toReturn = toReturn + "}}|" + bpm + "|";
+
+        //Note Info
+        for(int i=0; i<instruments.size(); i++){
+            ArrayList<Note> currNotes = instruments.get(i).notes;
+            for(int j=0; j<currNotes.size(); j++){
+                toReturn = toReturn + currNotes.get(j).startPosition + " " + currNotes.get(j).pitch + " " + currNotes.get(j).duration + " " + currNotes.get(j).instrumentId + ";";
+            }
+        }
+        return toReturn;
+    }
 
 }
