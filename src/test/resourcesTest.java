@@ -55,5 +55,27 @@ public class resourcesTest {
 
     }
 
+    @Test
+    public void getKickPitchTest(){
+        String allPitches[] = new String[]{"F3", "B2", "C3", "G3", "A3", "B3", "C4", "D4", "E5", "D#7", "D7"};
+        List<String> list = Arrays.asList(allPitches);
+
+        String pitch1 = Resources.getKickPitch();
+        assertTrue(list.contains(pitch1));
+
+        int equal = 0;
+        int i = 0;
+
+        while(i<8){
+            String pitch2 = Resources.getKickPitch();
+            if(pitch1 == pitch2){
+                equal +=1;
+            }
+            i++;
+        }
+
+        assertTrue(equal<(i/2));
+
+    }
 
 }
