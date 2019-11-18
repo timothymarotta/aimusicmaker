@@ -23,7 +23,7 @@ public class resourcesTest {
         while(i<10){
             String pitch2 = Resources.getHiHatPitch();
             assertTrue(list.contains(pitch2));
-            if(pitch1 == pitch2){
+            if(pitch1.equals(pitch2)){
 
                 equal +=1;
             }
@@ -48,7 +48,7 @@ public class resourcesTest {
         while(i<10 && equal == false){
             String pitch2 = Resources.getSnarePitch();
             assertTrue(list.contains(pitch2));
-            if(pitch1 == pitch2){
+            if(pitch1.equals(pitch2)){
                 equal = true;
             }
             i++;
@@ -72,7 +72,7 @@ public class resourcesTest {
         while(i<8){
             String pitch2 = Resources.getKickPitch();
             assertTrue(list.contains(pitch2));
-            if(pitch1 == pitch2){
+            if(pitch1.equals(pitch2)){
                 equal +=1;
             }
             i++;
@@ -96,7 +96,7 @@ public class resourcesTest {
         while(i<10){
             String pitch2 = Resources.getMiscellaniousPitch();
             assertTrue(list.contains(pitch2));
-            if(pitch1 == pitch2){
+            if(pitch1.equals(pitch2)){
                 equal +=1;
             }
             i++;
