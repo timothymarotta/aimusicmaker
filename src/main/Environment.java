@@ -1,20 +1,36 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.Random;
+import java.util.Scanner;
+// Written by Timothy Marotta
+// Date: November 11, 2019
 
 public class Environment {
-    public static void main(String[] args) throws IOException {
-        AgentIF randomAgent = new RandomAgent();
-        int[] instruments = {4, 29, 31, 3, 9, 10};
-        String music = randomAgent.make_music(40, instruments);
-        output_file(music, "testFile");
+    private static void writeToFile(String musicData, String filename) throws IOException {
+        FileWriter out = new FileWriter(filename);
+        out.write(musicData);
+        out.close();
     }
+    public static void main(String[] args) throws IOException {
+        //create new scanner and do any initialization tasks as needed
+        System.out.println("Initializing...");
+        Scanner in = new Scanner(System.in);
 
-    public static void output_file(String music, String fileName) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        printWriter.print(music);
-        printWriter.close();
+        // ask for number of bars
+        //catch input as Integer and multiply by 16
+        System.out.println("Number of Bars: ");
+        String numberOfBarsStr = in.nextLine();
+        int numberOfBars = Integer.valueOf(numberOfBarsStr); //this should catch exception
+
+        //ask for filename to write to
+        //catch input as String. Note all text files are stored in project root
+        System.out.println("Filename: ");
+        String filename = in.nextLine();
+
+        //call write to file (will eventually change when we have agents to work with to accommodate multiple agents
+        RandomAgent myAgent = new RandomAgent();
+        myAgent.makeMusic(numberOfBars);
+        writeToFile(myAgent.toString(), filename);
+        System.out.println("Done.");
     }
 }
 

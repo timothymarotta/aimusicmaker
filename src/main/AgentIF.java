@@ -1,3 +1,5 @@
 public interface AgentIF {
-    String make_music(int number_of_bars, int[] instrumentIDs);
+    //make music generates the music, and then returns toString()
+    String makeMusic(int number_of_bars);
+
 }
