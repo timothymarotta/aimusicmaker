@@ -8,6 +8,28 @@ public class Resources {
         createChordReference();
     }
 
+
+    /**
+     * Used to convert numerals and a key into a list of pitches
+     * Note: maybe octave should be taken as a parameter?
+     * @param key Ex: "Cmajor"
+     * @param numeral Ex: "ii"
+     * @returns A list of pitches Ex: ["A3", "C#3, "E3"]
+     */
+    public static ArrayList<String> getPitchesFromNumeral(String key, String numeral) {
+        //TODO
+        return null;
+    }
+
+    /**
+     * Used to initialize the key of an Agent
+     * @return A key Ex: "Cmajor" or "Aminor"
+     */
+    public static String getRandomKey() {
+        //TODO
+        return null;
+    }
+
     private void createNoteReference(){
         //TODO find a better way to initialize the note reference ArrayList?
         noteReference.add("C");
