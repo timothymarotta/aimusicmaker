@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Random;
 import java.util.Scanner;
 // Written by Timothy Marotta
 // Date: November 11, 2019
@@ -26,8 +27,10 @@ public class Environment {
         String filename = in.nextLine();
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents
-        DrummerAgentV1 myAgent = new DrummerAgentV1(120);
+        RandomAgent myAgent = new RandomAgent();
+        myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println("Done.");
     }
 }
+
