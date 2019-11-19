@@ -106,4 +106,10 @@ public class resourcesTest {
 
     }
 
+    @Test
+    public void getChordTest(){
+        Resources r =new Resources();
+        System.out.println(r.getChord("akndace",1,1,false));
+    }
+
 }

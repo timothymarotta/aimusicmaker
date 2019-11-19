@@ -35,10 +35,18 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String chordName, int octave, int inversion, boolean minor){
+
+    public ArrayList getChord(Instrument instrument, int startPos, String chordName, int octave, int inversion, boolean minor){
         //TODO given parameters, create chord arrayList of Note objects and return to caller
+        //chord name?
+        HashMap<String,ArrayList<String>> possibleChords =new HashMap<>();
+        ArrayList<String> cMinor=new ArrayList<>();
+        cMinor.add("C");  cMinor.add("F");  cMinor.add("G");
+        possibleChords.put("c minor",cMinor);
+        ArrayList<Note> notes=instrument;
         return null;
     }
+
 
     private int minor (String note){
         //TODO return index of middle note in reference array shifted left by 1
