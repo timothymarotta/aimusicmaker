@@ -27,7 +27,7 @@ public class Environment {
         String filename = in.nextLine();
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents
-        RandomAgent myAgent = new RandomAgent();
+        DrummerAgentV1 myAgent = new DrummerAgentV1(80);
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println("Done.");

@@ -3,8 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class resourcesTest {
 
@@ -103,6 +102,13 @@ public class resourcesTest {
         }
 
         assertTrue(equal<(i/2));
+
+    }
+
+    @Test
+    public void getPitchesFromNumeralTest(){
+        assertEquals(Arrays.asList("C4", "E4", "G4"), Resources.getPitchesFromNumeral("Cmajor", "I"));
+        assertEquals(Arrays.asList("D4", "F4", "A4"), Resources.getPitchesFromNumeral("Aminor", "iV"));
 
     }
 
