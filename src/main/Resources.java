@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Resources {
-    private ArrayList<String> noteReference = new ArrayList<String>();
+    private ArrayList<String> noteReference = new ArrayList<>();
     private HashMap<String, ArrayList> chords = new HashMap<>();
     public Resources() {
         createNoteReference();
@@ -43,6 +43,7 @@ public class Resources {
 
     private int minor (String note){
         //TODO return index of middle note in reference array shifted left by 1
+
         return -1;
     }
 }
