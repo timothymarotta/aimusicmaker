@@ -15,7 +15,7 @@ Important links:
 - Known vs unknown - Known since the results for all actions are known to the agent.
 -  Discrete vs continuous -  discrete since finite possibilities are accessible 
 
-# Relivant Articles
+# Relevant Articles
 - [I analyzed the chords of 1300 popular songs for patterns. This is what I found.](https://www.hooktheory.com/blog/i-analyzed-the-chords-of-1300-popular-songs-for-patterns-this-is-what-i-found/)
 
 
