@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class Resources {
-    private ArrayList<String> noteReference = new ArrayList<String>();
-    private HashMap<String, ArrayList> chords = new HashMap<>();
+    private ArrayList<String> noteReference = new ArrayList<>();
+    private HashMap<String, List<String>> scales = new HashMap<>();
     public Resources() {
         createNoteReference();
-        createChordReference();
+        initializeScales();
     }
 
     private void createNoteReference(){
@@ -23,8 +23,22 @@ public class Resources {
         noteReference.add("A#");
         noteReference.add("B");
     }
-    private void createChordReference() {
-
+    private void initializeScales(){
+        scales.put("C", new ArrayList<>(Arrays.asList("C", "D", "E", "F", "G", "A", "B")));
+        scales.put("C#", new ArrayList<>(Arrays.asList("C#", "D#", "F", "F#", "G#", "A#", "C")));
+        scales.put("D", new ArrayList<>(Arrays.asList("D", "E", "F#", "G", "A", "B", "C#")));
+        scales.put("D#", new ArrayList<>(Arrays.asList("D#", "F", "G", "G#", "A#", "B#", "D")));
+        scales.put("E", new ArrayList<>(Arrays.asList("E, F#, G#, A, B, C#, D#".split(", "))));
+        scales.put("F", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E".split(", "))));
+        scales.put("F#", new ArrayList<>(Arrays.asList("F#, G#, A#, B, C#, D#, E#".split(", "))));
+        scales.put("G", new ArrayList<>(Arrays.asList("G, A, B, C, D, E, F#".split(", "))));
+        scales.put("G#", new ArrayList<>(Arrays.asList("G#, A#, B#, C#, D#, E#, G".split(", "))));
+        scales.put("A", new ArrayList<>(Arrays.asList("A, B, C#, D, E, F#, G#".split(", "))));
+        scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
+        scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
+    }
+    public List<String> getScale(String scaleName, String scaleMode){
+        return scales.get(scaleName);
     }
 
     public int getNotePosition(String note){
@@ -35,13 +49,18 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String chordName, int octave, int inversion, boolean minor){
+    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType){
         //TODO given parameters, create chord arrayList of Note objects and return to caller
+        //return a string of note-octave pairs (i.e. A3, C6, E7)
+        //if no chord type known, return null and throw error No chord found
+        //reject improper inversion type / deal w/ octave only if valid octave # (1-7)
+        //chordType - check iof present in hashmap
         return null;
     }
 
     private int minor (String note){
         //TODO return index of middle note in reference array shifted left by 1
+
         return -1;
     }
 
@@ -95,6 +114,14 @@ public class Resources {
             }
         }
         return toReturn;
+    }
+
+    public static int getRandomInstrumentID(){
+        Integer allInstruments[] = new Integer[]{0, 8, 17, 25, 26, 2, 31, 19, 34, 21, 1, 4, 5, 29, 32, 35, 38, 22, 33, 2, 6, 7, 13, 14, 15, 16, 9, 10, 11, 12, 18, 20, 23};
+        List<Integer> list = Arrays.asList(allInstruments);
+        Random rand = new Random();
+        Integer id = list.get(rand.nextInt(list.size()));
+        return id.intValue();
     }
 
 }
