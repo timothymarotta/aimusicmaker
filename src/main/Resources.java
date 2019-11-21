@@ -60,7 +60,7 @@ public class Resources {
         }
         if(octave > 7 || octave < 1){
             throw new ArithmeticException("octave # invalid");
-        }//throw exceptions for inversions
+        }//throw exceptions for extensions
         List<String> validNotes = getScale(rootNote, chordType);
         ArrayList<Integer> chordNotePositions = getNoteFromScale(extension);
         ArrayList<String> chord = new ArrayList<>();
