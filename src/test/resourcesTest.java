@@ -1,10 +1,10 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class resourcesTest {
 
@@ -114,6 +114,44 @@ public class resourcesTest {
             int randId = Resources.getRandomInstrumentID();
             assertTrue(list.contains(randId));
         }
+    }
+
+    @Test
+    public void getScaleTest(){
+
+        //Major
+        Resources resource = new Resources();
+        List<String> scale1 = resource.getScale("C", "Major");
+        ArrayList<String> realScale = new ArrayList<>(Arrays.asList("C", "D", "E", "F", "G", "A", "B"));
+        assertEquals(realScale, scale1);
+
+        List<String> scale2 = resource.getScale("B", "Major");
+        ArrayList<String> realScale2 = new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", ")));
+        assertEquals(realScale2, scale2);
+
+        List<String> scale3 = resource.getScale("F#", "Major");
+        ArrayList<String> realScale3 = new ArrayList<>(Arrays.asList("F#, G#, A#, B, C#, D#, E#".split(", ")));
+        assertEquals(realScale3, scale3);
+
+
+        //Minor
+        List<String> minorScale1 = resource.getScale("C", "Minor");
+        ArrayList<String> realMinorScale1 = new ArrayList<>(Arrays.asList("C", "D", "D#", "F", "G", "G#", "A#"));
+        assertEquals(realMinorScale1, minorScale1);
+
+        List<String> minorScale2 = resource.getScale("B", "Minor");
+        ArrayList<String> realMinorScale2 = new ArrayList<>(Arrays.asList("B, C#, D, E, F#, G, A".split(", ")));
+        assertEquals(realMinorScale2, minorScale2);
+
+        List<String> minorScale3 = resource.getScale("F#", "Minor");
+        ArrayList<String> realMinorScale3 = new ArrayList<>(Arrays.asList("F#, G#, A, B, C#, D, E".split(", ")));
+        assertEquals(realMinorScale3, minorScale3);
+
+        //Diminished
+
+
+        //Augmented
+
     }
 
 }
