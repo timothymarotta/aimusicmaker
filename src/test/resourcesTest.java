@@ -106,4 +106,14 @@ public class resourcesTest {
 
     }
 
+    @Test
+    public void getRandomInstrumentIdTest(){
+        Integer allInstruments[] = new Integer[]{0, 8, 17, 25, 26, 2, 31, 19, 34, 21, 1, 4, 5, 29, 32, 35, 38, 22, 33, 2, 6, 7, 13, 14, 15, 16, 9, 10, 11, 12, 18, 20, 23};
+        List<Integer> list = Arrays.asList(allInstruments);
+        for(int i = 0; i<allInstruments.length*2; i++){
+            int randId = Resources.getRandomInstrumentID();
+            assertTrue(list.contains(randId));
+        }
+    }
+
 }
