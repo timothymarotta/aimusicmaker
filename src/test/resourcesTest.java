@@ -147,10 +147,6 @@ public class resourcesTest {
         ArrayList<String> realMinorScale3 = new ArrayList<>(Arrays.asList("F#, G#, A, B, C#, D, E".split(", ")));
         assertEquals(realMinorScale3, minorScale3);
 
-        //Diminished
-
-
-        //Augmented
 
     }
 
