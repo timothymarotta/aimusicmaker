@@ -12,10 +12,10 @@ public class AgentV2 implements AgentIF {
     }
 
     public AgentV2(){
-        //bpm is chosen randomly between 90 and 180
+        //bpm is chosen randomly between 90 and 130
         Random r = new Random();
-        int minBpm = 90;
-        int maxBpm = 180;
+        int minBpm = 80;
+        int maxBpm = 130;
         bpm = r.nextInt(maxBpm-minBpm+1)+minBpm;
 
         instruments = new ArrayList<>();
@@ -38,8 +38,6 @@ public class AgentV2 implements AgentIF {
     }
 
     public String toString(){
-
-
         return Resources.toString(instruments, bpm);
     }
 }

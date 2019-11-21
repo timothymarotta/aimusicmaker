@@ -3,6 +3,7 @@ import java.util.*;
 public class Resources {
     private ArrayList<String> noteReference = new ArrayList<>();
     private HashMap<String, List<String>> scales = new HashMap<>();
+
     public Resources() {
         createNoteReference();
         initializeScales();
@@ -85,7 +86,7 @@ public class Resources {
         return list.get(rand.nextInt(list.size()));
     }
 
-    public static String getMiscellaniousPitch(){
+    public static String getMiscellaneousPitch(){
         String allPitches[] = new String[]{"C7", "B6", "A6", "G6", "F#6", "C6", "B5", "A#4", "F4", "D#3", "A#2", "F#2", "F2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
@@ -124,4 +125,14 @@ public class Resources {
         return id.intValue();
     }
 
+    //returns a note in array position 0, and major/minor in position 1
+    //*in order to use this method the agent must create a resources object*
+    public void getRandomKey() {
+        String[] randomKey = new String[2];
+        String[] type = new String[]{"major", "minor"};
+
+        Random rand = new Random();
+        randomKey[0] = noteReference.get(rand.nextInt(noteReference.size()));
+        randomKey[1] = type[rand.nextInt(2)];
+    }
 }
