@@ -49,13 +49,25 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType){
+    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType, String extension){
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         //return a string of note-octave pairs (i.e. A3, C6, E7)
         //if no chord type known, return null and throw error No chord found
         //reject improper inversion type / deal w/ octave only if valid octave # (1-7)
         //chordType - check iof present in hashmap
-        return null;
+        if(inversion > 2){
+            throw new ArithmeticException("inversion # invalid");
+        }
+        if(octave > 7 || octave < 1){
+            throw new ArithmeticException("octave # invalid");
+        }
+        List<String> validNotes = getScale(rootNote, chordType);
+        ArrayList<Integer> chordNotePositions = getNoteFromScale(extension);
+        ArrayList<String> chord = new ArrayList<>();
+        for(int i = 0; i<chordNotePositions.size();i++){
+            chord.add(validNotes.get(chordNotePositions.get(i)));
+        }
+        return assignOctave(chord,octave,inversion);
     }
 
     private int minor (String note){
