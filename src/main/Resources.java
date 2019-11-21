@@ -28,8 +28,8 @@ public class Resources {
         scales.put("C#", new ArrayList<>(Arrays.asList("C#", "D#", "F", "F#", "G#", "A#", "C")));
         scales.put("D", new ArrayList<>(Arrays.asList("D", "E", "F#", "G", "A", "B", "C#")));
         scales.put("D#", new ArrayList<>(Arrays.asList("D#", "F", "G", "G#", "A#", "B#", "D")));
-        scales.put("E", new ArrayList<>(Arrays.asList("E, F#, G#, A, B, C#, D#, E".split(", "))));
-        scales.put("F", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E, F".split(", "))));
+        scales.put("E", new ArrayList<>(Arrays.asList("E, F#, G#, A, B, C#, D#".split(", "))));
+        scales.put("F", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E".split(", "))));
         scales.put("F#", new ArrayList<>(Arrays.asList("F#, G#, A#, B, C#, D#, E#".split(", "))));
         scales.put("G", new ArrayList<>(Arrays.asList("G, A, B, C, D, E, F#".split(", "))));
         scales.put("G#", new ArrayList<>(Arrays.asList("G#, A#, B#, C#, D#, E#, G".split(", "))));
@@ -53,6 +53,8 @@ public class Resources {
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         //return a string of note-octave pairs (i.e. A3, C6, E7)
         //if no chord type known, return null and throw error No chord found
+        //reject improper inversion type / deal w/ octave only if valid octave # (1-7)
+        //chordType - check iof present in hashmap
         return null;
     }
 
