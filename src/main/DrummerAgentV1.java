@@ -21,7 +21,7 @@ public class DrummerAgentV1 implements AgentIF {
         String hiHatPitch = Resources.getHiHatPitch();
         String snarePitch = Resources.getSnarePitch();
         String kickPitch = Resources.getSnarePitch();
-        String misc = Resources.getMiscellaniousPitch();
+        String misc = Resources.getMiscellaneousPitch();
 
         Random r = new Random();
         int hiHatFrequency = r.nextInt(4-1+1)+1;
