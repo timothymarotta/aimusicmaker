@@ -11,6 +11,9 @@ public class ChordAgentV1 implements AgentIF {
 
         //2. Create a list of numerals that will represent an abstract chord progression
         //   number of chords should be equal to number_of_bars
+        //  *Ideas for intelligence:
+        //    - Create a search space with all possible chord progression possibilities
+        //    - Gather data about popular chord progressions to use as a heuristic
         //   For now, it will be hardcoded
         List<String> numerals  = Arrays.asList("I", "V", "ii", "IV");
 
@@ -24,6 +27,7 @@ public class ChordAgentV1 implements AgentIF {
         //4. Create Note objects for the instrument based on the pitches from chordProgression
         //   This is where the rhythm/grove is "creatively" decided.
         //   To keep this agent simple, the first chord will be played in the first bar, second chord in the second bar, etc...
+        //  *This is an opportunity for intelligently listening to the drummerAgent*
 
         return null;
     }
