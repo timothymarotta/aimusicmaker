@@ -10,14 +10,13 @@ public class Resources {
 
 
     /**
-     * Used to convert numerals and a key into a list of pitches
-     * Note: maybe octave should be taken as a parameter?
+     * Used to convert a key and numeral into a list of pitches
      * @param key Ex: "Cmajor"
      * @param numeral Ex: "ii"
-     * @returns A list of pitches Ex: ["A3", "C#3, "E3"]
+     * @returns A ChordInfo object, which holds the rootNote, type of chord, inversion and extension
      */
     public static ArrayList<String> getPitchesFromNumeral(String key, String numeral) {
-        //TODO
+
         return null;
     }
 

@@ -107,8 +107,9 @@ public class resourcesTest {
 
     @Test
     public void getPitchesFromNumeralTest(){
-        assertEquals(Arrays.asList("C4", "E4", "G4"), Resources.getPitchesFromNumeral("Cmajor", "I"));
-        assertEquals(Arrays.asList("D4", "F4", "A4"), Resources.getPitchesFromNumeral("Aminor", "iV"));
+        assertEquals(Arrays.asList(new ChordInfo("C", "major")), Resources.getPitchesFromNumeral("Cmajor", "I"));
+        assertEquals(Arrays.asList(new ChordInfo("D", "minor")), Resources.getPitchesFromNumeral("Aminor", "iv"));
+        assertEquals(Arrays.asList(new ChordInfo("D#", "major")), Resources.getPitchesFromNumeral("A#major", "IV"));
 
     }
 
