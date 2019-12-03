@@ -36,7 +36,7 @@ public class Resources {
         scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
         scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
     }
-    //Todo Implement minor scale
+
     public List<String> getScale(String scaleName, String scaleMode){
         if (scaleMode.equals("major")){
             return scales.get(scaleName);
@@ -56,10 +56,61 @@ public class Resources {
     private ArrayList getNoteFromScale(String extension){
         return null;
     }
-    //Todo
-    private ArrayList assignOctave(ArrayList notes, int octave, int inversion){
 
-        return notes;
+    private ArrayList<String> assignOctave(ArrayList<String> notes, int octave, int inversion){
+        if (notes.size() == 3){
+            if (inversion == 0){
+                notes.set(0, notes.get(0) + octave);
+                if ((getNotePosition(notes.get(1)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(1, notes.get(1) + octave + 1);
+                } else {
+                    notes.set(1, notes.get(1) + octave);
+                }
+                if ((getNotePosition(notes.get(2)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(2, notes.get(2) + octave + 1);
+                } else {
+                    notes.set(2, notes.get(2) + octave);
+                }
+                return notes;
+            } else if (inversion == 1){
+                notes.set(1, notes.get(1) + octave);
+                if ((getNotePosition(notes.get(0)) < getNotePosition(notes.get(1))) && octave < 7){
+                    notes.set(0, notes.get(0) + octave + 1);
+                } else {
+                    notes.set(0, notes.get(0) + octave);
+                }
+                if ((getNotePosition(notes.get(2)) < getNotePosition(notes.get(1))) && octave < 7){
+                    notes.set(2, notes.get(2) + octave + 1);
+                } else {
+                    notes.set(2, notes.get(2) + octave);
+                }
+                return notes;
+            } else if (inversion == 2){
+                notes.set(2, notes.get(2) + octave);
+                if ((getNotePosition(notes.get(1)) < getNotePosition(notes.get(2))) && octave < 7){
+                    notes.set(1, notes.get(1) + octave + 1);
+                } else {
+                    notes.set(1, notes.get(1) + octave);
+                }
+                if ((getNotePosition(notes.get(0)) < getNotePosition(notes.get(2))) && octave < 7){
+                    notes.set(0, notes.get(0) + octave + 1);
+                } else {
+                    notes.set(0, notes.get(0) + octave);
+                }
+                return notes;
+            }
+        } else {
+            notes.set(0, notes.get(0) + octave);
+            for (int i = 0; i < notes.size(); i++){
+                if ((getNotePosition(notes.get(i)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(i, notes.get(i) + octave + 1);
+                } else {
+                    notes.set(i, notes.get(i) + octave);
+                }
+            }
+            return notes;
+        }
+        return null;
     }
 
     public int getNotePosition(String note){
