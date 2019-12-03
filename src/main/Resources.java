@@ -9,7 +9,6 @@ public class Resources {
     }
 
     private void createNoteReference(){
-        //TODO find a better way to initialize the note reference ArrayList?
         noteReference.add("C");
         noteReference.add("C#");
         noteReference.add("D");
@@ -37,8 +36,30 @@ public class Resources {
         scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
         scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
     }
+    //Todo Implement minor scale
     public List<String> getScale(String scaleName, String scaleMode){
-        return scales.get(scaleName);
+        if (scaleMode.equals("major")){
+            return scales.get(scaleName);
+        } else if (scaleMode.equals("minor")){
+            List<String> minor = scales.get(scaleName);
+            //select the third note in a major scale
+            String noteToChange = minor.get(2);
+            //find the index of the note in note reference
+            int minorIndex = noteReference.indexOf(noteToChange) - 1;
+            //replace base third note with minorIndex
+            minor.set(2, noteReference.get(minorIndex));
+            return minor;
+        }
+        return null;
+    }
+    //Todo
+    private ArrayList getNoteFromScale(String extension){
+        return null;
+    }
+    //Todo
+    private ArrayList assignOctave(ArrayList notes, int octave, int inversion){
+
+        return notes;
     }
 
     public int getNotePosition(String note){
