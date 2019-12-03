@@ -61,8 +61,11 @@ public class Resources {
         if(octave > 7 || octave < 1){
             throw new ArithmeticException("octave # invalid");
         }//throw exceptions for extensions
+        //get major or minor scale given the root note
         List<String> validNotes = getScale(rootNote, chordType);
+        //gets indexes for a chord to be selected from validNotes; assumes a triad as a base
         ArrayList<Integer> chordNotePositions = getNoteFromScale(extension);
+        //selects notes from validNotes based on indices from chordNotePositions
         ArrayList<String> chord = new ArrayList<>();
         for(int i = 0; i<chordNotePositions.size();i++){
             chord.add(validNotes.get(chordNotePositions.get(i)));
