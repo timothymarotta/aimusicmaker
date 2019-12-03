@@ -9,7 +9,6 @@ public class Resources {
     }
 
     private void createNoteReference(){
-        //TODO find a better way to initialize the note reference ArrayList?
         noteReference.add("C");
         noteReference.add("C#");
         noteReference.add("D");
@@ -37,8 +36,113 @@ public class Resources {
         scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
         scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
     }
+
     public List<String> getScale(String scaleName, String scaleMode){
-        return scales.get(scaleName);
+        if (scaleMode.equals("major")){
+            return scales.get(scaleName);
+        } else if (scaleMode.equals("minor")){
+            List<String> minor = scales.get(scaleName);
+            //select the third note in a major scale
+            String noteToChange = minor.get(2);
+            //find the index of the note in note reference
+            int minorIndex = noteReference.indexOf(noteToChange) - 1;
+            //replace base third note with minorIndex
+            minor.set(2, noteReference.get(minorIndex));
+            return minor;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param extension
+     * @return
+     * @throws Exception
+     */
+    private ArrayList<Integer> getNoteFromScale(String extension) throws Exception {
+        ArrayList<Integer> chordToReturn = new ArrayList<>();
+        //adds the base triad form to the returned chord
+        chordToReturn.add(0);
+        chordToReturn.add(2);
+        chordToReturn.add(4);
+        //split the extension string by commas to determine any individual extensions
+        if (extension.isEmpty()){
+            return chordToReturn;
+        }
+        ArrayList<String> indivExtensions = new ArrayList<>(Arrays.asList(extension.split(",")));
+        for (int i = 0; i < indivExtensions.size(); i++){
+            String extRequest = indivExtensions.get(i);
+            if (extRequest.length() == 1){
+                int extNum = Integer.parseInt(extRequest);
+                chordToReturn.add((extNum % 7) - 1);
+            } else {
+                throw new Exception("individual extensions should only be non-zero positive numbers. Do not add any other characters.");
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param notes
+     * @param octave
+     * @param inversion
+     * @return
+     */
+    private ArrayList<String> assignOctave(ArrayList<String> notes, int octave, int inversion){
+        if (notes.size() == 3){
+            if (inversion == 0){
+                notes.set(0, notes.get(0) + octave);
+                if ((getNotePosition(notes.get(1)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(1, notes.get(1) + octave + 1);
+                } else {
+                    notes.set(1, notes.get(1) + octave);
+                }
+                if ((getNotePosition(notes.get(2)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(2, notes.get(2) + octave + 1);
+                } else {
+                    notes.set(2, notes.get(2) + octave);
+                }
+                return notes;
+            } else if (inversion == 1){
+                notes.set(1, notes.get(1) + octave);
+                if ((getNotePosition(notes.get(0)) < getNotePosition(notes.get(1))) && octave < 7){
+                    notes.set(0, notes.get(0) + octave + 1);
+                } else {
+                    notes.set(0, notes.get(0) + octave);
+                }
+                if ((getNotePosition(notes.get(2)) < getNotePosition(notes.get(1))) && octave < 7){
+                    notes.set(2, notes.get(2) + octave + 1);
+                } else {
+                    notes.set(2, notes.get(2) + octave);
+                }
+                return notes;
+            } else if (inversion == 2){
+                notes.set(2, notes.get(2) + octave);
+                if ((getNotePosition(notes.get(1)) < getNotePosition(notes.get(2))) && octave < 7){
+                    notes.set(1, notes.get(1) + octave + 1);
+                } else {
+                    notes.set(1, notes.get(1) + octave);
+                }
+                if ((getNotePosition(notes.get(0)) < getNotePosition(notes.get(2))) && octave < 7){
+                    notes.set(0, notes.get(0) + octave + 1);
+                } else {
+                    notes.set(0, notes.get(0) + octave);
+                }
+                return notes;
+            }
+        } else {
+            notes.set(0, notes.get(0) + octave);
+            for (int i = 0; i < notes.size(); i++){
+                if ((getNotePosition(notes.get(i)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(i, notes.get(i) + octave + 1);
+                } else {
+                    notes.set(i, notes.get(i) + octave);
+                }
+            }
+            return notes;
+        }
+        return null;
     }
 
     public int getNotePosition(String note){
