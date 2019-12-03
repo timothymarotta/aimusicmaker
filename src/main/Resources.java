@@ -52,11 +52,43 @@ public class Resources {
         }
         return null;
     }
-    //Todo
-    private ArrayList getNoteFromScale(String extension){
+
+    /**
+     *
+     * @param extension
+     * @return
+     * @throws Exception
+     */
+    private ArrayList<Integer> getNoteFromScale(String extension) throws Exception {
+        ArrayList<Integer> chordToReturn = new ArrayList<>();
+        //adds the base triad form to the returned chord
+        chordToReturn.add(0);
+        chordToReturn.add(2);
+        chordToReturn.add(4);
+        //split the extension string by commas to determine any individual extensions
+        if (extension.isEmpty()){
+            return chordToReturn;
+        }
+        ArrayList<String> indivExtensions = new ArrayList<>(Arrays.asList(extension.split(",")));
+        for (int i = 0; i < indivExtensions.size(); i++){
+            String extRequest = indivExtensions.get(i);
+            if (extRequest.length() == 1){
+                int extNum = Integer.parseInt(extRequest);
+                chordToReturn.add((extNum % 7) - 1);
+            } else {
+                throw new Exception("individual extensions should only be non-zero positive numbers. Do not add any other characters.");
+            }
+        }
         return null;
     }
 
+    /**
+     *
+     * @param notes
+     * @param octave
+     * @param inversion
+     * @return
+     */
     private ArrayList<String> assignOctave(ArrayList<String> notes, int octave, int inversion){
         if (notes.size() == 3){
             if (inversion == 0){
