@@ -59,7 +59,7 @@ public class Resources {
      * @return
      * @throws Exception
      */
-    private ArrayList<Integer> getNoteFromScale(String extension) throws Exception {
+    private ArrayList<Integer> getIndicesForChord(String extension) throws Exception {
         ArrayList<Integer> chordToReturn = new ArrayList<>();
         //adds the base triad form to the returned chord
         chordToReturn.add(0);
@@ -153,7 +153,7 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType, String extension){
+    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType, String extension) throws Exception {
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         //return a string of note-octave pairs (i.e. A3, C6, E7)
         //if no chord type known, return null and throw error No chord found
@@ -168,19 +168,14 @@ public class Resources {
         //get major or minor scale given the root note
         List<String> validNotes = getScale(rootNote, chordType);
         //gets indexes for a chord to be selected from validNotes; assumes a triad as a base
-        ArrayList<Integer> chordNotePositions = getNoteFromScale(extension);
+        ArrayList<Integer> chordNotePositions = getIndicesForChord(extension);
         //selects notes from validNotes based on indices from chordNotePositions
         ArrayList<String> chord = new ArrayList<>();
-        for(int i = 0; i<chordNotePositions.size();i++){
+        assert chordNotePositions != null;
+        for(int i = 0; i<chordNotePositions.size(); i++){
             chord.add(validNotes.get(chordNotePositions.get(i)));
         }
         return assignOctave(chord,octave,inversion);
-    }
-
-    private int minor (String note){
-        //TODO return index of middle note in reference array shifted left by 1
-
-        return -1;
     }
 
     public static String getHiHatPitch(){
