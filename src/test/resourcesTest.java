@@ -107,9 +107,9 @@ public class resourcesTest {
 
     @Test
     public void getPitchesFromNumeralTest() throws Exception{
-        assertEquals(Arrays.asList(new ChordInfo("C", "major")), Resources.getChordInfoFromKeyAndNumeral("Cmajor", "I"));
-        assertEquals(Arrays.asList(new ChordInfo("D", "minor")), Resources.getChordInfoFromKeyAndNumeral("Aminor", "iv"));
-        assertEquals(Arrays.asList(new ChordInfo("D#", "major")), Resources.getChordInfoFromKeyAndNumeral("A#major", "IV"));
+        assertEquals(new ChordInfo("C", "major"), Resources.getChordInfoFromKeyAndNumeral("Cmajor", "I"));
+        assertEquals(new ChordInfo("D", "minor"), Resources.getChordInfoFromKeyAndNumeral("Aminor", "iv"));
+        assertEquals(new ChordInfo("D#", "major"), Resources.getChordInfoFromKeyAndNumeral("A#major", "IV"));
 
     }
 

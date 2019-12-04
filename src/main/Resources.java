@@ -59,7 +59,8 @@ public class Resources {
             rootChar = key.substring(0,1);
         }
 
-        String root = getScale(rootChar, chordType).get(index);
+        Resources resources = new Resources();
+        String root = resources.getScale(rootChar, chordType).get(index);
 
         ChordInfo chordInfo = new ChordInfo(root, chordType);
         return chordInfo;

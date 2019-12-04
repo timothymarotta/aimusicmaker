@@ -46,4 +46,19 @@ public class ChordInfo {
     public void setExtension(String extension) {
         this.extension = extension;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null){
+            return false;
+        }
+        if(!ChordInfo.class.isAssignableFrom(obj.getClass())){
+            return false;
+        }
+        ChordInfo other = (ChordInfo) obj;
+        //TODO: compare inversion and extension (they can be null)
+        return this.getRoot().equals(other.getRoot())
+                    && this.getChordType().equals(other.getChordType());
+
+    }
 }
