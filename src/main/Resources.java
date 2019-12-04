@@ -10,14 +10,59 @@ public class Resources {
 
 
     /**
-     * Used to convert a key and numeral into a list of pitches
+     * Used to convert a key and numeral into a ChordInfo object
      * @param key Ex: "Cmajor"
      * @param numeral Ex: "ii"
      * @returns A ChordInfo object, which holds the rootNote, type of chord, inversion and extension
      */
-    public static ArrayList<String> getPitchesFromNumeral(String key, String numeral) {
+    public static ChordInfo getChordInfoFromKeyAndNumeral(String key, String numeral) throws Exception{
+        boolean numeralIsMajor = isNumeralMajor(numeral);
+        String chordType;
+        if(numeralIsMajor){
+            chordType = "major";
+        }
+        else{
+            chordType = "minor";
+        }
 
-        return null;
+        int index;
+        if(numeral.toLowerCase().equals("i")){
+            index = 0;
+        }
+        else if(numeral.toLowerCase().equals("ii")){
+            index = 1;
+        }
+        else if(numeral.toLowerCase().equals("iii")){
+            index = 2;
+        }
+        else if(numeral.toLowerCase().equals("iv")){
+            index = 3;
+        }
+        else if(numeral.toLowerCase().equals("v")){
+            index = 4;
+        }
+        else if(numeral.toLowerCase().equals("vi")){
+            index = 5;
+        }
+        else if(numeral.toLowerCase().equals("vii")){
+            index = 6;
+        }
+        else{ //the numeral is not recognized
+            throw new Exception("numeral " + numeral + " is not recognized");
+        }
+
+        String rootChar;
+        if(key.charAt(1) == '#'){
+            rootChar = key.substring(0,2);
+        }
+        else{
+            rootChar = key.substring(0,1);
+        }
+
+        String root = getScale(rootChar, chordType).get(index);
+
+        ChordInfo chordInfo = new ChordInfo(root, chordType);
+        return chordInfo;
     }
 
     /**
@@ -247,6 +292,21 @@ public class Resources {
         Random rand = new Random();
         Integer id = list.get(rand.nextInt(list.size()));
         return id.intValue();
+    }
+
+    private static boolean isNumeralMajor(String numeral){
+
+        //convert String to char array
+        char[] charArray = numeral.toCharArray();
+
+        for(int i=0; i < charArray.length; i++){
+
+            //if any character is not in upper case, return false
+            if( !Character.isUpperCase( charArray[i] ))
+                return false;
+        }
+
+        return true;
     }
 
 }

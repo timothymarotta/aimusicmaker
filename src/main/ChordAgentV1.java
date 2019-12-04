@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ChordAgentV1 implements AgentIF {
     @Override
-    public String makeMusic(int number_of_bars) {
+    public String makeMusic(int number_of_bars) throws Exception{
 
         //1. Set a random key
         String key = Resources.getRandomKey();
@@ -18,10 +18,10 @@ public class ChordAgentV1 implements AgentIF {
         List<String> numerals  = Arrays.asList("I", "V", "ii", "IV");
 
         //3. turn numerals into a list of lists of pitches
-        ArrayList<ArrayList<String>> chordProgression = new ArrayList();
+        ArrayList<ChordInfo> chordInfoProgression = new ArrayList();
         for(int i=0; i<numerals.size(); i++){
-            ArrayList<String> newChord = Resources.getPitchesFromNumeral(key, numerals.get(i));
-            chordProgression.add(newChord);
+            ChordInfo newChord = Resources.getChordInfoFromKeyAndNumeral(key, numerals.get(i));
+            chordInfoProgression.add(newChord);
         }
 
         //4. Create Note objects for the instrument based on the pitches from chordProgression
