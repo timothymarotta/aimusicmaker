@@ -10,7 +10,7 @@ public class Environment {
         out.write(musicData);
         out.close();
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Exception {
         //create new scanner and do any initialization tasks as needed
         System.out.println("Initializing...");
         Scanner in = new Scanner(System.in);
@@ -27,7 +27,7 @@ public class Environment {
         String filename = in.nextLine();
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents
-        DrummerAgentV1 myAgent = new DrummerAgentV1(80);
+        ChordAgentV1 myAgent = new ChordAgentV1();
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println("Done.");

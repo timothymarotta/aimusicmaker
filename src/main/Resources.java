@@ -70,9 +70,12 @@ public class Resources {
      * Used to initialize the key of an Agent
      * @return A key Ex: "Cmajor" or "Aminor"
      */
-    public static String getRandomKey() {
-        //TODO
-        return null;
+    public String getRandomKey() {
+        Random r = new Random();
+        int low = 0;
+        int high = this.noteReference.size();
+        int result = r.nextInt(high-low) + low;
+        return noteReference.get(result) + "major";
     }
 
     private void createNoteReference(){
