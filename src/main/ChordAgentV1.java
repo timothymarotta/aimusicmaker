@@ -8,6 +8,7 @@ public class ChordAgentV1 implements AgentIF {
         Resources resources = new Resources();
 
         //1. Set a random key
+        // *currently set to only make major keys!
         String key = resources.getRandomKey();
 
         //2. Create a list of numerals that will represent an abstract chord progression
@@ -31,8 +32,8 @@ public class ChordAgentV1 implements AgentIF {
         //  *This is an opportunity for intelligently listening to the drummerAgent*
         for(int i=0; i<chordInfoProgression.size(); i++){
             ChordInfo chordInfo = chordInfoProgression.get(i);
-            //TODO: getChord is currently unimplemented
-            resources.getChord(chordInfo.root, 4, chordInfo.inversion, chordInfo.chordType);
+            ArrayList<String> currChordNotes = resources.getChord(chordInfo.root, 4, chordInfo.inversion, chordInfo.chordType, "");
+            //TODO: use currChordNotes to make note objects
         }
         return null;
     }

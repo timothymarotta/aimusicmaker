@@ -154,6 +154,35 @@ public class Resources {
 
     /**
      *
+     * @param extension
+     * @return
+     * @throws Exception
+     */
+    private ArrayList<Integer> getIndicesForChord(String extension) throws Exception {
+        ArrayList<Integer> chordToReturn = new ArrayList<>();
+        //adds the base triad form to the returned chord
+        chordToReturn.add(0);
+        chordToReturn.add(2);
+        chordToReturn.add(4);
+        //split the extension string by commas to determine any individual extensions
+        if (extension.isEmpty()){
+            return chordToReturn;
+        }
+        ArrayList<String> indivExtensions = new ArrayList<>(Arrays.asList(extension.split(",")));
+        for (int i = 0; i < indivExtensions.size(); i++){
+            String extRequest = indivExtensions.get(i);
+            if (extRequest.length() == 1){
+                int extNum = Integer.parseInt(extRequest);
+                chordToReturn.add((extNum % 7) - 1);
+            } else {
+                throw new Exception("individual extensions should only be non-zero positive numbers. Do not add any other characters.");
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
      * @param notes
      * @param octave
      * @param inversion
@@ -223,13 +252,29 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType){
+    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType, String extension) throws Exception {
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         //return a string of note-octave pairs (i.e. A3, C6, E7)
         //if no chord type known, return null and throw error No chord found
         //reject improper inversion type / deal w/ octave only if valid octave # (1-7)
         //chordType - check iof present in hashmap
-        return null;
+        if(inversion > 2){
+            throw new ArithmeticException("inversion # invalid");
+        }
+        if(octave > 7 || octave < 1){
+            throw new ArithmeticException("octave # invalid");
+        }//throw exceptions for extensions
+        //get major or minor scale given the root note
+        List<String> validNotes = getScale(rootNote, chordType);
+        //gets indexes for a chord to be selected from validNotes; assumes a triad as a base
+        ArrayList<Integer> chordNotePositions = getIndicesForChord(extension);
+        //selects notes from validNotes based on indices from chordNotePositions
+        ArrayList<String> chord = new ArrayList<>();
+        assert chordNotePositions != null;
+        for(int i = 0; i<chordNotePositions.size(); i++){
+            chord.add(validNotes.get(chordNotePositions.get(i)));
+        }
+        return assignOctave(chord,octave,inversion);
     }
 
     private int minor (String note){
