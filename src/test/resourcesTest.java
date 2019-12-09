@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -106,10 +107,53 @@ public class resourcesTest {
     }
 
     @Test
-    public void getPitchesFromNumeralTest() throws Exception{
+    public void getPitchesFromNumeralTest() throws Exception {
         assertEquals(new ChordInfo("C", "major"), Resources.getChordInfoFromKeyAndNumeral("Cmajor", "I"));
         assertEquals(new ChordInfo("D", "minor"), Resources.getChordInfoFromKeyAndNumeral("Aminor", "iv"));
         assertEquals(new ChordInfo("D#", "major"), Resources.getChordInfoFromKeyAndNumeral("A#major", "IV"));
+
+    }
+
+    @Test
+    public void getRandomInstrumentIdTest(){
+        Integer allInstruments[] = new Integer[]{0, 8, 17, 25, 26, 2, 31, 19, 34, 21, 1, 4, 5, 29, 32, 35, 38, 22, 33, 2, 6, 7, 13, 14, 15, 16, 9, 10, 11, 12, 18, 20, 23};
+        List<Integer> list = Arrays.asList(allInstruments);
+        for(int i = 0; i<allInstruments.length*2; i++){
+            int randId = Resources.getRandomInstrumentID();
+            assertTrue(list.contains(randId));
+        }
+    }
+
+    @Test
+    public void getScaleTest(){
+
+        //Major
+        Resources resource = new Resources();
+        List<String> scale1 = resource.getScale("C", "Major");
+        ArrayList<String> realScale = new ArrayList<>(Arrays.asList("C", "D", "E", "F", "G", "A", "B"));
+        assertEquals(realScale, scale1);
+
+        List<String> scale2 = resource.getScale("B", "Major");
+        ArrayList<String> realScale2 = new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", ")));
+        assertEquals(realScale2, scale2);
+
+        List<String> scale3 = resource.getScale("F#", "Major");
+        ArrayList<String> realScale3 = new ArrayList<>(Arrays.asList("F#, G#, A#, B, C#, D#, E#".split(", ")));
+        assertEquals(realScale3, scale3);
+
+
+        //Minor
+        List<String> minorScale1 = resource.getScale("C", "Minor");
+        ArrayList<String> realMinorScale1 = new ArrayList<>(Arrays.asList("C", "D", "D#", "F", "G", "G#", "A#"));
+        assertEquals(realMinorScale1, minorScale1);
+
+        List<String> minorScale2 = resource.getScale("B", "Minor");
+        ArrayList<String> realMinorScale2 = new ArrayList<>(Arrays.asList("B, C#, D, E, F#, G, A".split(", ")));
+        assertEquals(realMinorScale2, minorScale2);
+
+        List<String> minorScale3 = resource.getScale("F#", "Minor");
+        ArrayList<String> realMinorScale3 = new ArrayList<>(Arrays.asList("F#, G#, A, B, C#, D, E".split(", ")));
+        assertEquals(realMinorScale3, minorScale3);
 
     }
 
