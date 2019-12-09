@@ -60,7 +60,6 @@ public class Resources {
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         return null;
     }
-
     private int minor (String note){
         //TODO return index of middle note in reference array shifted left by 1
         return -1;
