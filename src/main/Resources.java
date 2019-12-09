@@ -9,8 +9,77 @@ public class Resources {
         initializeScales();
     }
 
+
+    /**
+     * Used to convert a key and numeral into a ChordInfo object
+     * @param key Ex: "Cmajor"
+     * @param numeral Ex: "ii"
+     * @returns A ChordInfo object, which holds the rootNote, type of chord, inversion and extension
+     */
+    public static ChordInfo getChordInfoFromKeyAndNumeral(String key, String numeral) throws Exception{
+        boolean numeralIsMajor = isNumeralMajor(numeral);
+        String chordType;
+        if(numeralIsMajor){
+            chordType = "major";
+        }
+        else{
+            chordType = "minor";
+        }
+
+        int index;
+        if(numeral.toLowerCase().equals("i")){
+            index = 0;
+        }
+        else if(numeral.toLowerCase().equals("ii")){
+            index = 1;
+        }
+        else if(numeral.toLowerCase().equals("iii")){
+            index = 2;
+        }
+        else if(numeral.toLowerCase().equals("iv")){
+            index = 3;
+        }
+        else if(numeral.toLowerCase().equals("v")){
+            index = 4;
+        }
+        else if(numeral.toLowerCase().equals("vi")){
+            index = 5;
+        }
+        else if(numeral.toLowerCase().equals("vii")){
+            index = 6;
+        }
+        else{ //the numeral is not recognized
+            throw new Exception("numeral " + numeral + " is not recognized");
+        }
+
+        String rootChar;
+        if(key.charAt(1) == '#'){
+            rootChar = key.substring(0,2);
+        }
+        else{
+            rootChar = key.substring(0,1);
+        }
+
+        Resources resources = new Resources();
+        String root = resources.getScale(rootChar, chordType).get(index);
+
+        ChordInfo chordInfo = new ChordInfo(root, chordType);
+        return chordInfo;
+    }
+
+    /**
+     * Used to initialize the key of an Agent
+     * @return A key Ex: "Cmajor" or "Aminor"
+     */
+//    public String getRandomKey() {
+//        Random r = new Random();
+//        int low = 0;
+//        int high = this.noteReference.size();
+//        int result = r.nextInt(high-low) + low;
+//        return noteReference.get(result) + "major";
+//    }
+
     private void createNoteReference(){
-        //TODO find a better way to initialize the note reference ArrayList?
         noteReference.add("C");
         noteReference.add("C#");
         noteReference.add("D");
@@ -38,8 +107,142 @@ public class Resources {
         scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
         scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
     }
+
     public List<String> getScale(String scaleName, String scaleMode){
-        return scales.get(scaleName);
+        if (scaleMode.equals("major")){
+            return scales.get(scaleName);
+        } else if (scaleMode.equals("minor")){
+            List<String> minor = scales.get(scaleName);
+            //select the third note in a major scale
+            String noteToChange = minor.get(2);
+            //find the index of the note in note reference
+            int minorIndex = noteReference.indexOf(noteToChange) - 1;
+            //replace base third note with minorIndex
+            minor.set(2, noteReference.get(minorIndex));
+            return minor;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param extension
+     * @return
+     * @throws Exception
+     */
+    private ArrayList<Integer> getNoteFromScale(String extension) throws Exception {
+        ArrayList<Integer> chordToReturn = new ArrayList<>();
+        //adds the base triad form to the returned chord
+        chordToReturn.add(0);
+        chordToReturn.add(2);
+        chordToReturn.add(4);
+        //split the extension string by commas to determine any individual extensions
+        if (extension.isEmpty()){
+            return chordToReturn;
+        }
+        ArrayList<String> indivExtensions = new ArrayList<>(Arrays.asList(extension.split(",")));
+        for (int i = 0; i < indivExtensions.size(); i++){
+            String extRequest = indivExtensions.get(i);
+            if (extRequest.length() == 1){
+                int extNum = Integer.parseInt(extRequest);
+                chordToReturn.add((extNum % 7) - 1);
+            } else {
+                throw new Exception("individual extensions should only be non-zero positive numbers. Do not add any other characters.");
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param extension
+     * @return
+     * @throws Exception
+     */
+    private ArrayList<Integer> getIndicesForChord(String extension) throws Exception {
+        ArrayList<Integer> chordToReturn = new ArrayList<>();
+        //adds the base triad form to the returned chord
+        chordToReturn.add(0);
+        chordToReturn.add(2);
+        chordToReturn.add(4);
+        //split the extension string by commas to determine any individual extensions
+        if (extension.isEmpty()){
+            return chordToReturn;
+        }
+        ArrayList<String> indivExtensions = new ArrayList<>(Arrays.asList(extension.split(",")));
+        for (int i = 0; i < indivExtensions.size(); i++){
+            String extRequest = indivExtensions.get(i);
+            if (extRequest.length() == 1){
+                int extNum = Integer.parseInt(extRequest);
+                chordToReturn.add((extNum % 7) - 1);
+            } else {
+                throw new Exception("individual extensions should only be non-zero positive numbers. Do not add any other characters.");
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param notes
+     * @param octave
+     * @param inversion
+     * @return
+     */
+    private ArrayList<String> assignOctave(ArrayList<String> notes, int octave, int inversion){
+        if (notes.size() == 3){
+            if (inversion == 0){
+                notes.set(0, notes.get(0) + octave);
+                if ((getNotePosition(notes.get(1)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(1, notes.get(1) + octave + 1);
+                } else {
+                    notes.set(1, notes.get(1) + octave);
+                }
+                if ((getNotePosition(notes.get(2)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(2, notes.get(2) + octave + 1);
+                } else {
+                    notes.set(2, notes.get(2) + octave);
+                }
+                return notes;
+            } else if (inversion == 1){
+                notes.set(1, notes.get(1) + octave);
+                if ((getNotePosition(notes.get(0)) < getNotePosition(notes.get(1))) && octave < 7){
+                    notes.set(0, notes.get(0) + octave + 1);
+                } else {
+                    notes.set(0, notes.get(0) + octave);
+                }
+                if ((getNotePosition(notes.get(2)) < getNotePosition(notes.get(1))) && octave < 7){
+                    notes.set(2, notes.get(2) + octave + 1);
+                } else {
+                    notes.set(2, notes.get(2) + octave);
+                }
+                return notes;
+            } else if (inversion == 2){
+                notes.set(2, notes.get(2) + octave);
+                if ((getNotePosition(notes.get(1)) < getNotePosition(notes.get(2))) && octave < 7){
+                    notes.set(1, notes.get(1) + octave + 1);
+                } else {
+                    notes.set(1, notes.get(1) + octave);
+                }
+                if ((getNotePosition(notes.get(0)) < getNotePosition(notes.get(2))) && octave < 7){
+                    notes.set(0, notes.get(0) + octave + 1);
+                } else {
+                    notes.set(0, notes.get(0) + octave);
+                }
+                return notes;
+            }
+        } else {
+            notes.set(0, notes.get(0) + octave);
+            for (int i = 0; i < notes.size(); i++){
+                if ((getNotePosition(notes.get(i)) < getNotePosition(notes.get(0))) && octave < 7){
+                    notes.set(i, notes.get(i) + octave + 1);
+                } else {
+                    notes.set(i, notes.get(i) + octave);
+                }
+            }
+            return notes;
+        }
+        return null;
     }
 
     public int getNotePosition(String note){
@@ -50,13 +253,29 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType){
+    public ArrayList<String> getChord(String rootNote, int octave, int inversion, String chordType, String extension) throws Exception {
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         //return a string of note-octave pairs (i.e. A3, C6, E7)
         //if no chord type known, return null and throw error No chord found
         //reject improper inversion type / deal w/ octave only if valid octave # (1-7)
         //chordType - check iof present in hashmap
-        return null;
+        if(inversion > 2){
+            throw new ArithmeticException("inversion # invalid");
+        }
+        if(octave > 7 || octave < 1){
+            throw new ArithmeticException("octave # invalid");
+        }//throw exceptions for extensions
+        //get major or minor scale given the root note
+        List<String> validNotes = getScale(rootNote, chordType);
+        //gets indexes for a chord to be selected from validNotes; assumes a triad as a base
+        ArrayList<Integer> chordNotePositions = getIndicesForChord(extension);
+        //selects notes from validNotes based on indices from chordNotePositions
+        ArrayList<String> chord = new ArrayList<>();
+        assert chordNotePositions != null;
+        for(int i = 0; i<chordNotePositions.size(); i++){
+            chord.add(validNotes.get(chordNotePositions.get(i)));
+        }
+        return assignOctave(chord,octave,inversion);
     }
 
     private int minor (String note){
@@ -66,7 +285,7 @@ public class Resources {
     }
 
     public static String getHiHatPitch(){
-        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "C#", "A#5", "A5", "D5", "C5", "B4", "A4", "G4", "F#4", "D#4", "C#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
+        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "A4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));
@@ -125,14 +344,31 @@ public class Resources {
         return id.intValue();
     }
 
+    private static boolean isNumeralMajor(String numeral){
+
+        //convert String to char array
+        char[] charArray = numeral.toCharArray();
+
+        for(int i=0; i < charArray.length; i++){
+
+            //if any character is not in upper case, return false
+            if( !Character.isUpperCase( charArray[i] ))
+                return false;
+        }
+
+        return true;
+    }
+
     //returns a note in array position 0, and major/minor in position 1
     //*in order to use this method the agent must create a resources object*
-    public void getRandomKey() {
+    public String getRandomKey() {
         String[] randomKey = new String[2];
         String[] type = new String[]{"major", "minor"};
 
         Random rand = new Random();
         randomKey[0] = noteReference.get(rand.nextInt(noteReference.size()));
         randomKey[1] = type[rand.nextInt(2)];
+        return randomKey[0]+randomKey[1];
     }
+
 }
