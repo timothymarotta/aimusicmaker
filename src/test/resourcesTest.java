@@ -87,14 +87,14 @@ public class resourcesTest {
         String allPitches[] = new String[]{"C7", "B6", "A6", "G6", "F#6", "C6", "B5", "A#4", "F4", "D#3", "A#2", "F#2", "F2", "E2"};
         List<String> list = Arrays.asList(allPitches);
 
-        String pitch1 = Resources.getMiscellaniousPitch();
+        String pitch1 = Resources.getMiscellaneousPitch();
         assertTrue(list.contains(pitch1));
 
         int equal = 0;
         int i = 0;
 
         while(i<10){
-            String pitch2 = Resources.getMiscellaniousPitch();
+            String pitch2 = Resources.getMiscellaneousPitch();
             assertTrue(list.contains(pitch2));
             if(pitch1.equals(pitch2)){
                 equal +=1;

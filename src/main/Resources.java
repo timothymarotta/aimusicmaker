@@ -3,6 +3,7 @@ import java.util.*;
 public class Resources {
     private ArrayList<String> noteReference = new ArrayList<>();
     private HashMap<String, List<String>> scales = new HashMap<>();
+
     public Resources() {
         createNoteReference();
         initializeScales();
@@ -70,13 +71,13 @@ public class Resources {
      * Used to initialize the key of an Agent
      * @return A key Ex: "Cmajor" or "Aminor"
      */
-    public String getRandomKey() {
-        Random r = new Random();
-        int low = 0;
-        int high = this.noteReference.size();
-        int result = r.nextInt(high-low) + low;
-        return noteReference.get(result) + "major";
-    }
+//    public String getRandomKey() {
+//        Random r = new Random();
+//        int low = 0;
+//        int high = this.noteReference.size();
+//        int result = r.nextInt(high-low) + low;
+//        return noteReference.get(result) + "major";
+//    }
 
     private void createNoteReference(){
         noteReference.add("C");
@@ -284,7 +285,7 @@ public class Resources {
     }
 
     public static String getHiHatPitch(){
-        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "A4", "G4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
+        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "A4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));
@@ -304,7 +305,7 @@ public class Resources {
         return list.get(rand.nextInt(list.size()));
     }
 
-    public static String getMiscellaniousPitch(){
+    public static String getMiscellaneousPitch(){
         String allPitches[] = new String[]{"C7", "B6", "A6", "G6", "F#6", "C6", "B5", "A#4", "F4", "D#3", "A#2", "F#2", "F2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
@@ -356,6 +357,18 @@ public class Resources {
         }
 
         return true;
+    }
+
+    //returns a note in array position 0, and major/minor in position 1
+    //*in order to use this method the agent must create a resources object*
+    public String getRandomKey() {
+        String[] randomKey = new String[2];
+        String[] type = new String[]{"major", "minor"};
+
+        Random rand = new Random();
+        randomKey[0] = noteReference.get(rand.nextInt(noteReference.size()));
+        randomKey[1] = type[rand.nextInt(2)];
+        return randomKey[0]+randomKey[1];
     }
 
 }
