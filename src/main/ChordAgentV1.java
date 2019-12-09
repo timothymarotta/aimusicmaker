@@ -13,9 +13,17 @@ public class ChordAgentV1 implements AgentIF {
         Resources resources = new Resources();
 
         Random rand_bpm = new Random();
-        bpm = rand_bpm.nextInt(200-150+1)+150;
+        bpm = rand_bpm.nextInt(130-90+1)+90;
         Instrument instrument = new Instrument(1);
         instruments.add(instrument);
+
+        DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
+
+        //there is currently 1 instrument in drummer but this allows for functionality if drummer ever changes to multiple instruments
+        for(int i = 0; i < drummer.instruments.size(); i++){
+            instruments.add(drummer.instruments.get(i));
+        }
+
 
         //1. Set a random key
         // *currently set to only make major keys!
@@ -41,9 +49,7 @@ public class ChordAgentV1 implements AgentIF {
         //   To keep this agent simple, the first chord will be played in the first bar, second chord in the second bar, etc...
         //  *This is an opportunity for intelligently listening to the drummerAgent*
         for (int i = 0; i < chordInfoProgression.size(); i++) {
-            ChordInfo chordInfo = chordInfoProgression.get(i);
             ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
-            //TODO: use currChordNotes to make note objects
             for (int j = 0; j < currChordNotes.size(); j++) {
                 for (int k = i; k < number_of_bars; k+=4) {
                     Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
@@ -51,6 +57,7 @@ public class ChordAgentV1 implements AgentIF {
                 }
             }
         }
+        //TODO: make chord listen to the drummer agent
         return toString();
     }
 

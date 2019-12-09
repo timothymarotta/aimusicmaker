@@ -284,7 +284,7 @@ public class Resources {
     }
 
     public static String getHiHatPitch(){
-        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "C#", "A#5", "A5", "D5", "C5", "B4", "A4", "G4", "F#4", "D#4", "C#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
+        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "A4", "G4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));

@@ -8,10 +8,10 @@ public class DrummerAgentV1 implements AgentIF {
     ArrayList<Instrument> instruments = new ArrayList<>();
 
 // electric -31 / standard- 2
-    public DrummerAgentV1(int bpm){
+    public DrummerAgentV1(int bpm, int numOfBars){
         this.bpm = bpm;
         drum = new Instrument(2);
-        makeMusic(4);
+        makeMusic(numOfBars);
         instruments.add(drum);
     }
 
@@ -24,8 +24,8 @@ public class DrummerAgentV1 implements AgentIF {
         String misc = Resources.getMiscellaniousPitch();
 
         Random r = new Random();
-        int hiHatFrequency = r.nextInt(4-1+1)+1;
-        int hiHatFrequency2 = r.nextInt(4-1+1)+1;
+        int hiHatFrequency = r.nextInt(6-2+1)+2;
+        int hiHatFrequency2 = r.nextInt(7-3+1)+1;
         int snareFrequency = r.nextInt(16-8+1)+8;
         int kickFrequency = r.nextInt(16-4+1)+4;
         int miscFrequency = r.nextInt(32-16+1)+16;
@@ -34,23 +34,15 @@ public class DrummerAgentV1 implements AgentIF {
             if(i%hiHatFrequency==0){
                 drum.addNote(i, hiHatPitch, 1);
             }
-        }
-        for (int i=0; i<songLength; i++){
             if(i%hiHatFrequency2==0){
                 drum.addNote(i, hiHatPitch, 1);
             }
-        }
-        for (int i=0; i<songLength; i++){
             if(i%snareFrequency==0){
                 drum.addNote(i, snarePitch, 1);
             }
-        }
-        for (int i=0; i<songLength; i++){
             if(i%kickFrequency==0){
                 drum.addNote(i, kickPitch, 1);
             }
-        }
-        for (int i=0; i<songLength; i++){
             if(i%miscFrequency==0){
                 drum.addNote(i, misc, 1);
             }
