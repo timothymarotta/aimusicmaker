@@ -252,7 +252,7 @@ public class Resources {
          */
         return noteReference.indexOf(note);
     }
-    public ArrayList getChord(String rootNote, int octave, int inversion, String chordType, String extension) throws Exception {
+    public ArrayList<String> getChord(String rootNote, int octave, int inversion, String chordType, String extension) throws Exception {
         //TODO given parameters, create chord arrayList of Note objects and return to caller
         //return a string of note-octave pairs (i.e. A3, C6, E7)
         //if no chord type known, return null and throw error No chord found
