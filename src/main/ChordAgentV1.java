@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class ChordAgentV1 implements AgentIF {
 
@@ -11,6 +12,8 @@ public class ChordAgentV1 implements AgentIF {
     public String makeMusic(int number_of_bars) throws Exception{
         Resources resources = new Resources();
 
+        Random rand_bpm = new Random();
+        bpm = rand_bpm.nextInt(200-150+1)+150;
         Instrument instrument = new Instrument(1);
         instruments.add(instrument);
 
@@ -37,16 +40,18 @@ public class ChordAgentV1 implements AgentIF {
         //   This is where the rhythm/grove is "creatively" decided.
         //   To keep this agent simple, the first chord will be played in the first bar, second chord in the second bar, etc...
         //  *This is an opportunity for intelligently listening to the drummerAgent*
-        for(int i=0; i<chordInfoProgression.size(); i++){
+        for (int i = 0; i < chordInfoProgression.size(); i++) {
             ChordInfo chordInfo = chordInfoProgression.get(i);
             ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
             //TODO: use currChordNotes to make note objects
-            for(int j = 0; j < currChordNotes.size(); j++) {
-                Note currNote = new Note(i * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
-                instruments.get(0).addNote(currNote);
+            for (int j = 0; j < currChordNotes.size(); j++) {
+                for (int k = i; k < number_of_bars; k+=4) {
+                    Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
+                    instruments.get(0).addNote(currNote);
+                }
             }
         }
-        return null;
+        return toString();
     }
 
     public String toString(){
