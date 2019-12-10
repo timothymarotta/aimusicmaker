@@ -19,7 +19,7 @@ public class Resources {
         chordProgressions.add(Arrays.asList("I", "IV", "ii", "V"));
         chordProgressions.add(Arrays.asList("I", "vi", "IV", "V"));
     }
-    public List<String> getRandomHardcodedChordProgression(){//TODO: CHANGE NAME
+    public List<String> getRandomHardcodedChordProgression(){
         Random rand = new Random();
         List<String> chord= chordProgressions.get(rand.nextInt(chordProgressions.size()));
         return chord;
