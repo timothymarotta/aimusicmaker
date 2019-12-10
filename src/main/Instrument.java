@@ -39,6 +39,10 @@ public class Instrument {
         notes.add(noteIn);
     }
 
+    public int getInstrumentId(){
+        return instrumentId;
+    }
+
 
 
 }
