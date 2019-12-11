@@ -3,11 +3,29 @@ import java.util.*;
 public class Resources {
     private ArrayList<String> noteReference = new ArrayList<>();
     private HashMap<String, List<String>> scales = new HashMap<>();
+    private List<List<String>> chordProgressions= new ArrayList<>();
 
     public Resources() {
         createNoteReference();
         initializeScales();
     }
+
+    public void chordProgressions(){
+        chordProgressions.add(Arrays.asList("I", "V", "ii", "IV"));
+        chordProgressions.add(Arrays.asList("I", "vi", "ii", "V"));
+        chordProgressions.add(Arrays.asList("I", "V", "vi", "IV"));
+        chordProgressions.add(Arrays.asList("I", "IV", "vi", "V"));
+        chordProgressions.add(Arrays.asList("I", "iii", "IV", "V"));
+        chordProgressions.add(Arrays.asList("I", "IV", "I", "V"));
+        chordProgressions.add(Arrays.asList("I", "IV", "ii", "V"));
+        chordProgressions.add(Arrays.asList("I", "vi", "IV", "V"));
+    }
+    public List<String> getRandomHardcodedChordProgression(){
+        Random rand = new Random();
+        List<String> chord= chordProgressions.get(rand.nextInt(chordProgressions.size()));
+        return chord;
+    }
+
 
 
     /**
@@ -78,6 +96,7 @@ public class Resources {
 //        int result = r.nextInt(high-low) + low;
 //        return noteReference.get(result) + "major";
 //    }
+
 
     private void createNoteReference(){
         noteReference.add("C");
