@@ -37,7 +37,7 @@ public class Environment {
         }
 
         //ask for tempo
-        int tempo;
+        int tempo = -5;
         boolean validTempo = false;
         boolean validNum = true;
         Random rand = new Random();
@@ -57,7 +57,7 @@ public class Environment {
 
             if (tempoStr.equals("slow")) {
                 validTempo = true;
-                tempo = rand.nextInt(70-20)+20;
+                tempo = rand.nextInt(70-50)+50;
 
             } else if (tempoStr.equals("medium")) {
                 validTempo = true;
@@ -69,10 +69,10 @@ public class Environment {
 
             } else if (tempoStr.equals("random") || tempoStr.equals("r")) {
                 validTempo = true;
-                tempo = rand.nextInt(180-20)+20;
+                tempo = rand.nextInt(180-50)+50;
             }
 
-            else if (validNum && Integer.parseInt(tempoStr) > 20 && Integer.parseInt(tempoStr) < 200) {
+            else if (validNum && Integer.parseInt(tempoStr) > 50 && Integer.parseInt(tempoStr) < 200) {
                     validTempo = true;
                     tempo = Integer.parseInt(tempoStr);
             }
@@ -126,7 +126,7 @@ public class Environment {
         }
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents)
-        ChordAgentV1 myAgent = new ChordAgentV1();
+        ConductorAgent myAgent = new ConductorAgent(tempo, keyStr);
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println(filename + " was created.");

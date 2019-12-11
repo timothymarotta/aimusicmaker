@@ -8,6 +8,12 @@ public class ChordAgentV1 implements AgentIF {
     int bpm;
     ArrayList<Instrument> instruments = new ArrayList<>();
 
+    ArrayList<Integer> drumFrequencies;
+
+
+    public ChordAgentV1(ArrayList<Integer> drumFrequenciesIn){
+        drumFrequencies = drumFrequenciesIn;
+    }
     @Override
     public String makeMusic(int number_of_bars) throws Exception{
         Resources resources = new Resources();
