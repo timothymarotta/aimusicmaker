@@ -63,5 +63,7 @@ public class DrummerAgentV1 implements AgentIF {
         frequencies.add(snareFrequency);
         frequencies.add(kickFrequency);
         frequencies.add(miscFrequency);
+
+        return frequencies;
     }
 }
