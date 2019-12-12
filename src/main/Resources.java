@@ -8,6 +8,7 @@ public class Resources {
     public Resources() {
         createNoteReference();
         initializeScales();
+        chordProgressions();
     }
 
     public void chordProgressions(){
@@ -23,6 +24,7 @@ public class Resources {
     public List<String> getRandomHardcodedChordProgression(){
         Random rand = new Random();
         List<String> chord= chordProgressions.get(rand.nextInt(chordProgressions.size()));
+        System.out.println(chord);
         return chord;
     }
 
