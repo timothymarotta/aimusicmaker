@@ -3,11 +3,31 @@ import java.util.*;
 public class Resources {
     private ArrayList<String> noteReference = new ArrayList<>();
     private HashMap<String, List<String>> scales = new HashMap<>();
+    private List<List<String>> chordProgressions= new ArrayList<>();
 
     public Resources() {
         createNoteReference();
         initializeScales();
+        chordProgressions();
     }
+
+    public void chordProgressions(){
+        chordProgressions.add(Arrays.asList("I", "V", "ii", "IV"));
+        chordProgressions.add(Arrays.asList("I", "vi", "ii", "V"));
+        chordProgressions.add(Arrays.asList("I", "V", "vi", "IV"));
+        chordProgressions.add(Arrays.asList("I", "IV", "vi", "V"));
+        chordProgressions.add(Arrays.asList("I", "iii", "IV", "V"));
+        chordProgressions.add(Arrays.asList("I", "IV", "I", "V"));
+        chordProgressions.add(Arrays.asList("I", "IV", "ii", "V"));
+        chordProgressions.add(Arrays.asList("I", "vi", "IV", "V"));
+    }
+
+    public List<String> getRandomHardcodedChordProgression(){
+        Random rand = new Random();
+        List<String> chord= chordProgressions.get(rand.nextInt(chordProgressions.size()));
+        return chord;
+    }
+
 
 
     /**
@@ -79,6 +99,7 @@ public class Resources {
 //        return noteReference.get(result) + "major";
 //    }
 
+
     private void createNoteReference(){
         noteReference.add("C");
         noteReference.add("C#");
@@ -109,6 +130,7 @@ public class Resources {
     }
 
     public List<String> getScale(String scaleName, String scaleMode){
+        scaleMode = scaleMode.toLowerCase();
         if (scaleMode.equals("major")){
             return scales.get(scaleName);
         } else if (scaleMode.equals("minor")){
@@ -279,7 +301,7 @@ public class Resources {
     }
 
     public static String getHiHatPitch(){
-        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "A4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
+        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));

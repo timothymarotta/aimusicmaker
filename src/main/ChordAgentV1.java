@@ -45,7 +45,7 @@ public class ChordAgentV1 implements AgentIF {
         //    - Create a search space with all possible chord progression possibilities
         //    - Gather data about popular chord progressions to use as a heuristic
         //   For now, it will be hardcoded
-        List<String> numerals  = Arrays.asList("I", "V", "ii", "IV");
+        List<String> numerals  = resources.getRandomHardcodedChordProgression();
 
         //3. turn numerals into a list of lists of pitches
         ArrayList<ChordInfo> chordInfoProgression = new ArrayList();
