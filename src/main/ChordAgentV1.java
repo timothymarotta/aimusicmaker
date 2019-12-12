@@ -9,10 +9,17 @@ public class ChordAgentV1 implements AgentIF {
     ArrayList<Instrument> instruments = new ArrayList<>();
 
     ArrayList<Integer> drumFrequencies;
+    String key;
 
-
-    public ChordAgentV1(ArrayList<Integer> drumFrequenciesIn){
+    public ChordAgentV1(ArrayList<Integer> drumFrequenciesIn, String keyIn){
         drumFrequencies = drumFrequenciesIn;
+        Resources resources = new Resources();
+        if (keyIn.equals("random") || keyIn.equals("r")){
+            key = resources.getRandomKey();
+        }
+        else{
+            key = keyIn;
+        }
     }
     @Override
     public String makeMusic(int number_of_bars) throws Exception{
@@ -31,9 +38,6 @@ public class ChordAgentV1 implements AgentIF {
         }
 
 
-        //1. Set a random key
-        // *currently set to only make major keys!
-        String key = resources.getRandomKey();
 
         //2. Create a list of numerals that will represent an abstract chord progression
         //   number of chords should be equal to number_of_bars

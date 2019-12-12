@@ -27,7 +27,7 @@ public class DrummerAgentV1 implements AgentIF {
         int songLength = number_of_bars * 16;
         String hiHatPitch = Resources.getHiHatPitch();
         String snarePitch = Resources.getSnarePitch();
-        String kickPitch = Resources.getSnarePitch();
+        String kickPitch = Resources.getKickPitch();
         String misc = Resources.getMiscellaneousPitch();
 
 
