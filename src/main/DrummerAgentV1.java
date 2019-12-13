@@ -32,6 +32,7 @@ public class DrummerAgentV1 implements AgentIF {
         String kickPitch = Resources.getKickPitch();
         String misc = Resources.getMiscellaneousPitch();
 
+        //both even
         if(hiHatFrequency % hiHatFrequency2 == 0 || hiHatFrequency2 % hiHatFrequency == 0){
             hiHatFrequency2 += 1;
         }
