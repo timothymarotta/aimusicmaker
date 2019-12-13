@@ -26,14 +26,14 @@ public class Environment {
         //catch input as Integer and multiply by 16
         System.out.println("Enter number of bars: ");
         String numberOfBarsStr = in.nextLine();
-        int numberOfBars = Integer.valueOf(numberOfBarsStr);
+        int numberOfBars = Integer.parseInt(numberOfBarsStr);
 
         //check to make sure it's divisible by 4
         while (numberOfBars%4 != 0){
             System.out.println("Number of bars must be divisible by 4.");
             System.out.println("Please enter number of bars: ");
             numberOfBarsStr = in.nextLine();
-            numberOfBars = Integer.valueOf(numberOfBarsStr);
+            numberOfBars = Integer.parseInt(numberOfBarsStr);
         }
 
         //ask for tempo
@@ -87,7 +87,7 @@ public class Environment {
         //ask for key
         ArrayList<String> validNotesIn = new ArrayList<>(Arrays.asList("c", "C", "c#", "C#", "d", "D#", "e", "E", "f", "F", "f#", "F#", "g", "G", "g#", "G#", "a", "A", "a#",
         "A#", "b", "B"));
-        String key, mmStr;
+        String key = null, mmStr;
         boolean validKey = false;
 
         System.out.println("Enter starting key note or type 'random': ");
@@ -126,7 +126,7 @@ public class Environment {
         }
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents)
-        ConductorAgent myAgent = new ConductorAgent(tempo, keyStr);
+        ConductorAgent myAgent = new ConductorAgent(tempo, key);
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println(filename + " was created.");

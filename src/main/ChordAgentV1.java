@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.Collections;
 
 public class ChordAgentV1 implements AgentIF {
 
@@ -33,9 +34,7 @@ public class ChordAgentV1 implements AgentIF {
         DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
 
         //there is currently 1 instrument in drummer but this allows for functionality if drummer ever changes to multiple instruments
-        for(int i = 0; i < drummer.instruments.size(); i++){
-            instruments.add(drummer.instruments.get(i));
-        }
+        instruments.addAll(drummer.instruments);
 
 
 
@@ -58,17 +57,49 @@ public class ChordAgentV1 implements AgentIF {
         //   This is where the rhythm/grove is "creatively" decided.
         //   To keep this agent simple, the first chord will be played in the first bar, second chord in the second bar, etc...
         //  *This is an opportunity for intelligently listening to the drummerAgent*
+
+        //determine chord by abstraction of drum pitches
+        int chordFrequency = calculateDuration(drumFrequencies);
         for (int i = 0; i < chordInfoProgression.size(); i++) {
             ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
             for (int j = 0; j < currChordNotes.size(); j++) {
                 for (int k = i; k < number_of_bars; k+=4) {
-                    Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
+                    Note currNote = new Note(k * 16, currChordNotes.get(j), chordFrequency, instruments.get(0).getInstrumentId());
                     instruments.get(0).addNote(currNote);
                 }
             }
         }
         //TODO: make chord listen to the drummer agent
         return toString();
+    }
+
+    private int calculateDuration(ArrayList<Integer> drumFrequencies) {
+        //select random method 0-4, where 0 is none and returns a default 16
+        Random r = new Random();
+        int methodNum = r.nextInt(5);
+        if (methodNum == 0){
+            return 16;
+        } else if (methodNum == 1){
+            //returns average of kick drum and snare frequencies
+            int add = drumFrequencies.get(2) + drumFrequencies.get(3);
+            return add/2;
+        } else if (methodNum == 2){
+            //returns average of all values of drumFrequencies
+            int add = 0;
+            for (int i = 0; i < drumFrequencies.size(); i++){
+                add+= drumFrequencies.get(i);
+            }
+            return add/drumFrequencies.size();
+        } else if (methodNum == 3){
+            /* returns difference between maximum and minimum value; modulo by 16 to increase total frequency in the event
+             * of a large distance between minimum and maximum
+             */
+            return (Collections.max(drumFrequencies) - Collections.min(drumFrequencies))%16;
+        } else {
+            //returns average of high hat values
+            int add = drumFrequencies.get(0) + drumFrequencies.get(1);
+            return add/2;
+        }
     }
 
     public String toString(){
