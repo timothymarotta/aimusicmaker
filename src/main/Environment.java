@@ -85,9 +85,9 @@ public class Environment {
         }
 
         //ask for key
-        ArrayList<String> validNotesIn = new ArrayList<>(Arrays.asList("c", "C", "c#", "C#", "d", "D#", "e", "E", "f", "F", "f#", "F#", "g", "G", "g#", "G#", "a", "A", "a#",
+        ArrayList<String> validNotesIn = new ArrayList<>(Arrays.asList("c", "C", "c#", "C#", "d", "D", "d#", "D#", "e", "E", "f", "F", "f#", "F#", "g", "G", "g#", "G#", "a", "A", "a#",
         "A#", "b", "B"));
-        String key, mmStr;
+        String key = null, mmStr;
         boolean validKey = false;
 
         System.out.println("Enter starting key note or type 'random': ");
@@ -96,7 +96,7 @@ public class Environment {
         while(!validKey) {
             if (keyStr.equals("random") || keyStr.equals("r")) {
                 //the agent's constructor should recognize this as asking for a random key
-                key = Integer.toString(-1);
+                key = "r";
                 validKey = true;
 
             } else if (validNotesIn.contains(keyStr)) {
@@ -116,7 +116,8 @@ public class Environment {
                     }
 
                 //also possible to keep these two variables separate
-                key = keyStr+mmStr;
+                key = keyStr.toUpperCase()+mmStr;
+                    System.out.println(key);
                 }
             }
             else {
@@ -126,7 +127,7 @@ public class Environment {
         }
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents)
-        ConductorAgent myAgent = new ConductorAgent(tempo, keyStr);
+        ConductorAgent myAgent = new ConductorAgent(tempo, key);
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println(filename + " was created.");

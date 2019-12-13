@@ -14,7 +14,7 @@ public class ChordAgentV1 implements AgentIF {
     public ChordAgentV1(ArrayList<Integer> drumFrequenciesIn, String keyIn){
         drumFrequencies = drumFrequenciesIn;
         Resources resources = new Resources();
-        if (keyIn.equals("random") || keyIn.equals("r")){
+        if (keyIn.equals("r")){
             key = resources.getRandomKey();
         }
         else{
@@ -30,12 +30,12 @@ public class ChordAgentV1 implements AgentIF {
         Instrument instrument = new Instrument(1);
         instruments.add(instrument);
 
-        DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
+        /*DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
 
         //there is currently 1 instrument in drummer but this allows for functionality if drummer ever changes to multiple instruments
         for(int i = 0; i < drummer.instruments.size(); i++){
             instruments.add(drummer.instruments.get(i));
-        }
+        }*/
 
 
 
