@@ -38,6 +38,16 @@ public class Instrument {
         //TODO with this, the instrumentId of the note might not match the instrumentId of the instrument!
         notes.add(noteIn);
     }
+    //TODO:MAKE SEPERATE FUNC FOR MAKING THE LIST
+    public ArrayList<String> getNotes(){
+        ArrayList<String> notePitches=new ArrayList<>();
+        if(!notes.isEmpty()){
+            for(int i = 0;i<notes.size();i++){
+                notePitches.add(notes.get(i).getPitch());
+            }
+        }
+        return notePitches;
+    }
 
     public int getInstrumentId(){
         return instrumentId;

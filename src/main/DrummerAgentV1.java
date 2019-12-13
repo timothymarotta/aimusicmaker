@@ -29,8 +29,7 @@ public class DrummerAgentV1 implements AgentIF {
         String snarePitch = Resources.getSnarePitch();
         String kickPitch = Resources.getKickPitch();
         String misc = Resources.getMiscellaneousPitch();
-
-
+        System.out.println(hiHatFrequency);
         for (int i=0; i<songLength; i++){
             if(i%hiHatFrequency==0){
                 drum.addNote(i, hiHatPitch, 1);

@@ -53,6 +53,17 @@ public class ChordAgentV1 implements AgentIF {
             ChordInfo newChord = Resources.getChordInfoFromKeyAndNumeral(key, numerals.get(i));
             chordInfoProgression.add(newChord);
         }
+        int frequencySums=0;
+        for(int i =0; i<drumFrequencies.size();i++){
+            frequencySums=frequencySums+drumFrequencies.get(i);
+        }
+        if(key.contains("minor")){
+            frequencySums-=6;
+        }
+        else{
+            frequencySums+=6;
+        }
+        int freqAverage=frequencySums/drumFrequencies.size()%16;
 
         //4. Create Note objects for the instrument based on the pitches from chordProgression
         //   This is where the rhythm/grove is "creatively" decided.
@@ -60,10 +71,14 @@ public class ChordAgentV1 implements AgentIF {
         //  *This is an opportunity for intelligently listening to the drummerAgent*
         for (int i = 0; i < chordInfoProgression.size(); i++) {
             ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
-            for (int j = 0; j < currChordNotes.size(); j++) {
-                for (int k = i; k < number_of_bars; k+=4) {
-                    Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
-                    instruments.get(0).addNote(currNote);
+            if(i%freqAverage==0) {
+                for (int j = 0; j < currChordNotes.size(); j++) {
+                    for (int k = i; k < number_of_bars; k += 4) {
+                        Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
+                        instruments.get(0).addNote(currNote);
+
+                    }
+
                 }
             }
         }
@@ -75,3 +90,16 @@ public class ChordAgentV1 implements AgentIF {
         return Resources.toString(instruments, bpm);
     }
 }
+/**
+        for (int i = 0; i < chordInfoProgression.size(); i++) {
+        ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
+        System.out.println(currChordNotes);
+        for (int j = 0; j < currChordNotes.size(); j++) {
+        for (int k = i; k < number_of_bars; k+=4) {
+        Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
+        instruments.get(0).addNote(currNote);
+        }
+        }
+        }
+
+ */
