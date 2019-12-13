@@ -62,25 +62,10 @@ public class ChordAgentV2 implements AgentIF {
         // true makes the agent listen to hihat1,
         // false makes the agent listen to hihat2
         boolean getHiHat1 = true;
-        System.out.println(1);
         //while we aren't at the end of the track
         while (i<number_of_bars*16){
             ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(chordInfoIndex).root, 4, chordInfoProgression.get(chordInfoIndex).inversion, chordInfoProgression.get(chordInfoIndex).chordType, "");
             if(getHiHat1){
-//                if (drumFrequencies.get(0) > drumFrequencies.get(1)) {
-//                    //i = findNextHiHat(i,drumFrequencies.get(0));
-//                    if(i%2!=0){
-//                        i+=1;
-//                    }
-//                    iEnd = findNextHiHat(i, drumFrequencies.get(0));
-//                }
-//                else{
-//                    //i = findNextHiHat(i,drumFrequencies.get(1));
-//                    if(i%2!=0){
-//                        i+=1;
-//                    }
-//                    iEnd = findNextHiHat(i, drumFrequencies.get(1));
-//                }
                 int chance = r.nextInt(7);
                 if (i % 2 != 0) {
                     int startDelay = r.nextInt(4);
@@ -107,7 +92,6 @@ public class ChordAgentV2 implements AgentIF {
                     iEnd = findNextHiHat(iEnd, drumFrequencies.get(0));
                     chance = r.nextInt(5);
                 }
-                System.out.println(2);
             }
             else{
 
@@ -124,7 +108,6 @@ public class ChordAgentV2 implements AgentIF {
                 if(i%2!=0){
                     i+=1;
                 }
-                System.out.println(3);
             }
 
             //swap beginning and end if they happened to get mixed up
@@ -138,43 +121,50 @@ public class ChordAgentV2 implements AgentIF {
             if(iEnd>number_of_bars*16){
                 iEnd = number_of_bars*16;
             }
-            System.out.println(4);
 
             //arpeggios:
-//            if(iEnd-i>6){
-//                System.out.println(4.1);
-//                //moves end point up
-//                for (int w = 0; w < currChordNotes.size(); w++){
-//                    iEnd = findNextHiHat(iEnd,  drumFrequencies.get(r.nextInt(2)));
-//                    System.out.println(4.2);
-//                }
-//
-//                //each note of the chord starts with a different hihat
-//                for (int j = 0; j < currChordNotes.size(); j++) {
-//                    System.out.println(4.3);
-//                    System.out.println(i);
-//                    if (j>0){
-//                        System.out.println(i);
-//                        i = findNextHiHat(i, drumFrequencies.get(r.nextInt(2)));
-//                        System.out.println(i);
-//                        System.out.println(4.4);
-//                    }
-//                    Note currNote = new Note(i, currChordNotes.get(j), iEnd, instruments.get(0).getInstrumentId());
-//                    instruments.get(0).addNote(currNote);
-//                    System.out.println(4.5);
-//                }
-//                System.out.println(5);
-//            }
-//            else {
-            for (int j = 0; j < currChordNotes.size(); j++) {
-                Note currNote = new Note(i, currChordNotes.get(j), iEnd - i, instruments.get(0).getInstrumentId());
-                instruments.get(0).addNote(currNote);
+            //must be length of 6 or greater
+            int arp = r.nextInt(4);
+            if(iEnd-i>=2 && arp == 3){
+                //moves end point of end of chord up.
+                //-1 because the first note's starting position won't change
+                for (int w = 0; w < currChordNotes.size()-1; w++){
+                    iEnd = findNextHiHat(iEnd,  drumFrequencies.get(r.nextInt(2)));
+                }
+
+                //each note of the chord will start at the same time as a different hihat
+                for (int j = 0; j < currChordNotes.size(); j++) {
+                    //the first note will not move their starting position
+                    if (j>0){
+                        for (int h = 0; h <j; h++){
+                            i = findNextHiHat(i, drumFrequencies.get(r.nextInt(2)));
+                        }
+                    }
+                    Note currNote = new Note(i, currChordNotes.get(j), iEnd-i, instruments.get(0).getInstrumentId());
+                    //swap beginning and end if they happened to get mixed up
+                    if(iEnd<i){
+                        int temp = i;
+                        i = iEnd+1;
+                        iEnd = temp;
+                    }
+                    instruments.get(0).addNote(currNote);
+                }
             }
-            System.out.println(6);
-//            }
+            else {
+                for (int j = 0; j < currChordNotes.size(); j++) {
+                    //swap beginning and end if they happened to get mixed up
+                    if(iEnd<i){
+                        int temp = i;
+                        i = iEnd+1;
+                        iEnd = temp;
+                    }
+                    Note currNote = new Note(i, currChordNotes.get(j), iEnd - i, instruments.get(0).getInstrumentId());
+                    instruments.get(0).addNote(currNote);
+                }
+            }
 
             //get earliest starting position for next chord
-            i = iEnd;
+            i = iEnd+1;
 
             //goes to next chord
             chordInfoIndex += 1;
@@ -182,7 +172,7 @@ public class ChordAgentV2 implements AgentIF {
                 chordInfoIndex = 0;
             }
 
-            //possibility of looking at other high hate frequency
+            //possibility of looking at other highhat frequency
             int chance = r.nextInt(3);
             if(chance==2){
                 if(getHiHat1){
@@ -192,7 +182,6 @@ public class ChordAgentV2 implements AgentIF {
                     getHiHat1 = true;
                 }
             }
-            System.out.println(7);
 
         }
 //        for (int i = 0; i < chordInfoProgression.size(); i++) {
@@ -228,7 +217,7 @@ public class ChordAgentV2 implements AgentIF {
     //frequecy is passed into this one and not kick because this will specify which hiHat (since there are two frequencies)
     public int findNextHiHat(int min, int freq){
         int pos = 0;
-        while (pos<=min){
+        while (pos<min){
             pos += freq;
         }
         return pos;

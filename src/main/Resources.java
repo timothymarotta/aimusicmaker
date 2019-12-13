@@ -120,6 +120,7 @@ public class Resources {
         scales.put("D", new ArrayList<>(Arrays.asList("D", "E", "F#", "G", "A", "B", "C#")));
         scales.put("D#", new ArrayList<>(Arrays.asList("D#", "F", "G", "G#", "A#", "B#", "D")));
         scales.put("E", new ArrayList<>(Arrays.asList("E, F#, G#, A, B, C#, D#".split(", "))));
+        scales.put("E#", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E".split(", "))));
         scales.put("F", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E".split(", "))));
         scales.put("F#", new ArrayList<>(Arrays.asList("F#, G#, A#, B, C#, D#, E#".split(", "))));
         scales.put("G", new ArrayList<>(Arrays.asList("G, A, B, C, D, E, F#".split(", "))));
@@ -127,6 +128,7 @@ public class Resources {
         scales.put("A", new ArrayList<>(Arrays.asList("A, B, C#, D, E, F#, G#".split(", "))));
         scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
         scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
+        scales.put("B#", new ArrayList<>(Arrays.asList("C", "D", "E", "F", "G", "A", "B")));
     }
 
     public List<String> getScale(String scaleName, String scaleMode){
@@ -145,7 +147,7 @@ public class Resources {
                 minorIndex = noteReference.indexOf(noteToChange) - 1;
             }
             else{
-                minorIndex = noteReference.size()-1; //noteReference.indexOf(noteToChange) - 1;
+                minorIndex = noteReference.size() + noteReference.indexOf(noteToChange) -1; //noteReference.indexOf(noteToChange) - 1;
             }
             //replace base third note with minorIndex
             minor.set(2, noteReference.get(minorIndex));
@@ -303,7 +305,16 @@ public class Resources {
         ArrayList<String> chord = new ArrayList<>();
         assert chordNotePositions != null;
         for(int i = 0; i<chordNotePositions.size(); i++){
-            chord.add(validNotes.get(chordNotePositions.get(i)));
+            if (chordNotePositions.get(i)==null){
+                System.out.println("null");
+            }
+            else {
+                if(validNotes.get(chordNotePositions.get(i))==null)
+                    System.out.println("null2");
+                else{
+                    chord.add(validNotes.get(chordNotePositions.get(i)));
+                }
+            }
         }
         return assignOctave(chord,octave,inversion);
     }
