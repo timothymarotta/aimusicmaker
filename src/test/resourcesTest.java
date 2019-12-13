@@ -144,15 +144,15 @@ public class resourcesTest {
 
         //Minor
         List<String> minorScale1 = resource.getScale("C", "Minor");
-        ArrayList<String> realMinorScale1 = new ArrayList<>(Arrays.asList("C", "D", "D#", "F", "G", "G#", "A#"));
+        ArrayList<String> realMinorScale1 = new ArrayList<>(Arrays.asList("C", "D", "D#", "F", "G", "A", "B"));
         assertEquals(realMinorScale1, minorScale1);
 
         List<String> minorScale2 = resource.getScale("B", "Minor");
-        ArrayList<String> realMinorScale2 = new ArrayList<>(Arrays.asList("B, C#, D, E, F#, G, A".split(", ")));
+        ArrayList<String> realMinorScale2 = new ArrayList<>(Arrays.asList("B, C#, D, E, F#, G#, A#".split(", ")));
         assertEquals(realMinorScale2, minorScale2);
 
         List<String> minorScale3 = resource.getScale("F#", "Minor");
-        ArrayList<String> realMinorScale3 = new ArrayList<>(Arrays.asList("F#, G#, A, B, C#, D, E".split(", ")));
+        ArrayList<String> realMinorScale3 = new ArrayList<>(Arrays.asList("F#, G#, A, B, C#, D#, E#".split(", ")));
         assertEquals(realMinorScale3, minorScale3);
 
     }

@@ -3,11 +3,31 @@ import java.util.*;
 public class Resources {
     private ArrayList<String> noteReference = new ArrayList<>();
     private HashMap<String, List<String>> scales = new HashMap<>();
+    private List<List<String>> chordProgressions= new ArrayList<>();
 
     public Resources() {
         createNoteReference();
         initializeScales();
+        chordProgressions();
     }
+
+    public void chordProgressions(){
+        chordProgressions.add(Arrays.asList("I", "V", "ii", "IV"));
+        chordProgressions.add(Arrays.asList("I", "vi", "ii", "V"));
+        chordProgressions.add(Arrays.asList("I", "V", "vi", "IV"));
+        chordProgressions.add(Arrays.asList("I", "IV", "vi", "V"));
+        chordProgressions.add(Arrays.asList("I", "iii", "IV", "V"));
+        chordProgressions.add(Arrays.asList("I", "IV", "I", "V"));
+        chordProgressions.add(Arrays.asList("I", "IV", "ii", "V"));
+        chordProgressions.add(Arrays.asList("I", "vi", "IV", "V"));
+    }
+
+    public List<String> getRandomHardcodedChordProgression(){
+        Random rand = new Random();
+        List<String> chord= chordProgressions.get(rand.nextInt(chordProgressions.size()));
+        return chord;
+    }
+
 
 
     /**
@@ -79,6 +99,7 @@ public class Resources {
 //        return noteReference.get(result) + "major";
 //    }
 
+
     private void createNoteReference(){
         noteReference.add("C");
         noteReference.add("C#");
@@ -99,6 +120,7 @@ public class Resources {
         scales.put("D", new ArrayList<>(Arrays.asList("D", "E", "F#", "G", "A", "B", "C#")));
         scales.put("D#", new ArrayList<>(Arrays.asList("D#", "F", "G", "G#", "A#", "B#", "D")));
         scales.put("E", new ArrayList<>(Arrays.asList("E, F#, G#, A, B, C#, D#".split(", "))));
+        scales.put("E#", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E".split(", "))));
         scales.put("F", new ArrayList<>(Arrays.asList("F, G, A, A#, C, D, E".split(", "))));
         scales.put("F#", new ArrayList<>(Arrays.asList("F#, G#, A#, B, C#, D#, E#".split(", "))));
         scales.put("G", new ArrayList<>(Arrays.asList("G, A, B, C, D, E, F#".split(", "))));
@@ -106,9 +128,11 @@ public class Resources {
         scales.put("A", new ArrayList<>(Arrays.asList("A, B, C#, D, E, F#, G#".split(", "))));
         scales.put("A#", new ArrayList<>(Arrays.asList("A#, B#, D, D#, E#, G, A".split(", "))));
         scales.put("B", new ArrayList<>(Arrays.asList("B, C#, D#, E, F#, G#, A#".split(", "))));
+        scales.put("B#", new ArrayList<>(Arrays.asList("C", "D", "E", "F", "G", "A", "B")));
     }
 
     public List<String> getScale(String scaleName, String scaleMode){
+        scaleMode = scaleMode.toLowerCase();
         if (scaleMode.equals("major")){
             return scales.get(scaleName);
         } else if (scaleMode.equals("minor")){
@@ -116,7 +140,15 @@ public class Resources {
             //select the third note in a major scale
             String noteToChange = minor.get(2);
             //find the index of the note in note reference
-            int minorIndex = noteReference.indexOf(noteToChange) - 1;
+
+            //now doesn't crash for subtracting 1 from 0 and getting that index
+            int minorIndex;
+            if(noteReference.indexOf(noteToChange)>0){
+                minorIndex = noteReference.indexOf(noteToChange) - 1;
+            }
+            else{
+                minorIndex = noteReference.size() + noteReference.indexOf(noteToChange) -1; //noteReference.indexOf(noteToChange) - 1;
+            }
             //replace base third note with minorIndex
             minor.set(2, noteReference.get(minorIndex));
             return minor;
@@ -273,19 +305,22 @@ public class Resources {
         ArrayList<String> chord = new ArrayList<>();
         assert chordNotePositions != null;
         for(int i = 0; i<chordNotePositions.size(); i++){
-            chord.add(validNotes.get(chordNotePositions.get(i)));
+            if (chordNotePositions.get(i)==null){
+                System.out.println("null");
+            }
+            else {
+                if(validNotes.get(chordNotePositions.get(i))==null)
+                    System.out.println("null2");
+                else{
+                    chord.add(validNotes.get(chordNotePositions.get(i)));
+                }
+            }
         }
         return assignOctave(chord,octave,inversion);
     }
 
-    private int minor (String note){
-        //TODO return index of middle note in reference array shifted left by 1
-
-        return -1;
-    }
-
     public static String getHiHatPitch(){
-        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "A4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
+        String allPitches[] = new String[]{"C#7", "A#6", "E6", "D#6", "A#5", "A5", "D5", "C5", "B4", "F#4", "D#4", "A#", "G#3", "F#3", "D#3", "C#3", "G2", "E2"};
         List<String> list = Arrays.asList(allPitches);
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));

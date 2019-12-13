@@ -22,7 +22,7 @@ public class Instrument {
         this.instrumentId = instrumentId;
         this.volume = 1;
         this.delay = false;
-        this.reverb = false;
+        this.reverb = true;
         this.notes = new ArrayList<>();
     }
 
