@@ -113,7 +113,7 @@ public class ChordAgentV2 implements AgentIF {
             //swap beginning and end if they happened to get mixed up
             if(iEnd<i){
                 int temp = i;
-                i = iEnd+1;
+                i = iEnd;
                 iEnd = temp;
             }
 
@@ -140,13 +140,16 @@ public class ChordAgentV2 implements AgentIF {
                             i = findNextHiHat(i, drumFrequencies.get(r.nextInt(2)));
                         }
                     }
-                    Note currNote = new Note(i, currChordNotes.get(j), iEnd-i, instruments.get(0).getInstrumentId());
-                    //swap beginning and end if they happened to get mixed up
                     if(iEnd<i){
                         int temp = i;
-                        i = iEnd+1;
+                        i = iEnd;
                         iEnd = temp;
                     }
+                    if (iEnd == i){
+                        iEnd+=r.nextInt(3)+1;
+                    }
+                    Note currNote = new Note(i, currChordNotes.get(j), iEnd-i, instruments.get(0).getInstrumentId());
+                    //swap beginning and end if they happened to get mixed up
                     instruments.get(0).addNote(currNote);
                 }
             }
@@ -155,8 +158,11 @@ public class ChordAgentV2 implements AgentIF {
                     //swap beginning and end if they happened to get mixed up
                     if(iEnd<i){
                         int temp = i;
-                        i = iEnd+1;
+                        i = iEnd;
                         iEnd = temp;
+                    }
+                    if (iEnd == i){
+                        iEnd+=r.nextInt(3)+1;
                     }
                     Note currNote = new Note(i, currChordNotes.get(j), iEnd - i, instruments.get(0).getInstrumentId());
                     instruments.get(0).addNote(currNote);
