@@ -48,15 +48,20 @@ public class ChordAgentV2 implements AgentIF {
         //   This is where the rhythm/grove is "creatively" decided.
         //   To keep this agent simple, the first chord will be played in the first bar, second chord in the second bar, etc...
         //  *This is an opportunity for intelligently listening to the drummerAgent*
-        for (int i = 0; i < chordInfoProgression.size(); i++) {
-            ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
-            for (int j = 0; j < currChordNotes.size(); j++) {
-                for (int k = i; k < number_of_bars; k+=4) {
-                    Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
-                    instruments.get(0).addNote(currNote);
-                }
-            }
+        int i = 0;
+        Random r = new Random();
+        while (i<number_of_bars*16){
+            int nextChordStart = i + r.nextInt(6-2+1)+2;
         }
+//        for (int i = 0; i < chordInfoProgression.size(); i++) {
+//            ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
+//            for (int j = 0; j < currChordNotes.size(); j++) {
+//                for (int k = i; k < number_of_bars; k+=4) {
+//                    Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
+//                    instruments.get(0).addNote(currNote);
+//                }
+//            }
+//        }
         //TODO: make chord listen to the drummer agent
         return toString();
     }

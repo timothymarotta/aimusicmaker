@@ -33,7 +33,7 @@ public class DrummerAgentV1 implements AgentIF {
         String misc = Resources.getMiscellaneousPitch();
 
         if(hiHatFrequency % hiHatFrequency2 == 0 || hiHatFrequency2 % hiHatFrequency == 0){
-            hiHatFrequency2 += 3;
+            hiHatFrequency2 += 1;
         }
         //both odd
         if(hiHatFrequency % 2 != 0 && hiHatFrequency2 %2 !=0){
@@ -65,9 +65,10 @@ public class DrummerAgentV1 implements AgentIF {
         }
 
 
-        if(bpm>140){
+        if(bpm>125){
             hiHatFrequency *= 2;
             hiHatFrequency2 *= 2;
+            hiHatFrequency2 += 1;
             snareFrequency *= 2;
             kickFrequency *= 2;
             miscFrequency *= 2;
