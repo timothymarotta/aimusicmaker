@@ -22,7 +22,7 @@ public class ConductorAgent implements AgentIF {
 
         DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
 
-        ChordAgentV1 chords = new ChordAgentV1(drummer.getFrequencies(), key);
+        ChordAgentV2 chords = new ChordAgentV2(drummer.getFrequencies(), key, bpm);
         chords.makeMusic(number_of_bars);
         for(int i = 0; i < drummer.instruments.size(); i++){
             instruments.add(drummer.instruments.get(i));

@@ -138,7 +138,15 @@ public class Resources {
             //select the third note in a major scale
             String noteToChange = minor.get(2);
             //find the index of the note in note reference
-            int minorIndex = noteReference.indexOf(noteToChange) - 1;
+
+            //now doesn't crash for subtracting 1 from 0 and getting that index
+            int minorIndex;
+            if(noteReference.indexOf(noteToChange)>0){
+                minorIndex = noteReference.indexOf(noteToChange) - 1;
+            }
+            else{
+                minorIndex = noteReference.size()-1; //noteReference.indexOf(noteToChange) - 1;
+            }
             //replace base third note with minorIndex
             minor.set(2, noteReference.get(minorIndex));
             return minor;

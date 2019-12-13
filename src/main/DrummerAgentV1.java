@@ -19,7 +19,7 @@ public class DrummerAgentV1 implements AgentIF {
 // electric -31 / standard- 2
     public DrummerAgentV1(int bpm, int numOfBars){
         this.bpm = bpm;
-        drum = new Instrument(2);
+        drum = new Instrument(2, 2, false, false);
         makeMusic(numOfBars);
         instruments.add(drum);
     }
@@ -62,6 +62,10 @@ public class DrummerAgentV1 implements AgentIF {
 
         while(snareFrequency >= kickFrequency){
             snareFrequency -= 2;
+        }
+
+        if (kickFrequency<3){
+            kickFrequency /= 2;
         }
 
 
