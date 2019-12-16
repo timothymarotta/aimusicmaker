@@ -17,6 +17,14 @@ public class Environment {
         System.out.println("Initializing...");
         Scanner in = new Scanner(System.in);
 
+        //ask which version of the agent the user would like to try
+        System.out.println("Would you like to try the basic or advanced agent?");
+        String agentVersion = in.nextLine();
+        while(!agentVersion.equals("basic") && !agentVersion.equals("advanced") && !agentVersion.equals("b") && !agentVersion.equals("a")){
+            System.out.println("Please enter 'basic' or 'advanced': ");
+            agentVersion = in.nextLine();
+        }
+
         //ask for filename to write to
         //catch input as String. Note all text files are stored in project root
         System.out.println("Enter name of file:  ");
@@ -126,8 +134,14 @@ public class Environment {
             }
         }
 
-        //call write to file (will eventually change when we have agents to work with to accommodate multiple agents)
-        ConductorAgentAdvanced myAgent = new ConductorAgentAdvanced(tempo, key);
+        //initialize an agent and write to file, depending on the agent version selected by the user
+        AgentIF myAgent = null;
+        if(agentVersion.equals("advanced") || agentVersion.equals("a")) {
+            myAgent = new ConductorAgentAdvanced(tempo, key);
+        }
+        else if (agentVersion.equals("basic") || agentVersion.equals("b")){
+            myAgent = new ConductorAgentBasic(tempo, key);
+        }
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println(filename + " was created.");
