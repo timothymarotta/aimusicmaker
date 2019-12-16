@@ -11,8 +11,7 @@ public class ChordAgentV1 implements AgentIF {
     ArrayList<Integer> drumFrequencies;
     String key;
 
-    public ChordAgentV1(ArrayList<Integer> drumFrequenciesIn, String keyIn){
-        drumFrequencies = drumFrequenciesIn;
+    public ChordAgentV1(String keyIn, int bpmIn){
         Resources resources = new Resources();
         if (keyIn.equals("r")){
             key = resources.getRandomKey();
@@ -20,31 +19,19 @@ public class ChordAgentV1 implements AgentIF {
         else{
             key = keyIn;
         }
+        bpm = bpmIn;
     }
     @Override
     public String makeMusic(int number_of_bars) throws Exception{
         Resources resources = new Resources();
 
-        Random rand_bpm = new Random();
-        bpm = rand_bpm.nextInt(130-90+1)+90;
         Instrument instrument = new Instrument(1);
         instruments.add(instrument);
 
-        /*DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
-
-        //there is currently 1 instrument in drummer but this allows for functionality if drummer ever changes to multiple instruments
-        for(int i = 0; i < drummer.instruments.size(); i++){
-            instruments.add(drummer.instruments.get(i));
-        }*/
-
-
 
         //2. Create a list of numerals that will represent an abstract chord progression
-        //   number of chords should be equal to number_of_bars
-        //  *Ideas for intelligence:
-        //    - Create a search space with all possible chord progression possibilities
-        //    - Gather data about popular chord progressions to use as a heuristic
-        //   For now, it will be hardcoded
+        //   number_of_bars should be divisible to number of chords
+
         List<String> numerals  = resources.getRandomHardcodedChordProgression();
 
         //3. turn numerals into a list of lists of pitches

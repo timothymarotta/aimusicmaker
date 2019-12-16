@@ -127,7 +127,7 @@ public class Environment {
         }
 
         //call write to file (will eventually change when we have agents to work with to accommodate multiple agents)
-        ConductorAgent myAgent = new ConductorAgent(tempo, key);
+        ConductorAgentAdvanced myAgent = new ConductorAgentAdvanced(tempo, key);
         myAgent.makeMusic(numberOfBars);
         writeToFile(myAgent.toString(), filename);
         System.out.println(filename + " was created.");
