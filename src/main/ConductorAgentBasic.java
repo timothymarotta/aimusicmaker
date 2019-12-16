@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class ConductorAgent implements AgentIF {
+public class ConductorAgentBasic implements AgentIF {
 
     int bpm;
     String key;
     ArrayList<Instrument> instruments = new ArrayList<Instrument>();
 
-    public ConductorAgent(int bpmIn, String keyIn){
+    public ConductorAgentBasic(int bpmIn, String keyIn){
         Resources resources = new Resources();
         if (keyIn.equals("random") || keyIn.equals("r")){
             key = resources.getRandomKey();
@@ -22,7 +22,7 @@ public class ConductorAgent implements AgentIF {
 
         DrummerAgentV1 drummer = new DrummerAgentV1(bpm, number_of_bars);
 
-        ChordAgentV2 chords = new ChordAgentV2(drummer.getFrequencies(), key, bpm);
+        ChordAgentV1 chords = new ChordAgentV1(key, bpm);
         chords.makeMusic(number_of_bars);
         for(int i = 0; i < drummer.instruments.size(); i++){
             instruments.add(drummer.instruments.get(i));

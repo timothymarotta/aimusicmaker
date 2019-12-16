@@ -29,14 +29,10 @@ public class ChordAgentV2 implements AgentIF {
 
 
         //2. Create a list of numerals that will represent an abstract chord progression
-        //   number of chords should be equal to number_of_bars
-        //  *Ideas for intelligence:
-        //    - Create a search space with all possible chord progression possibilities
-        //    - Gather data about popular chord progressions to use as a heuristic
-        //   For now, it will be hardcoded
+        //number_of_bars should be divisible by number of chords in progression
         List<String> numerals  = resources.getRandomHardcodedChordProgression();
 
-        //3. turn numerals into a list of lists of pitches
+        //3. turn numerals into a list of lists of chordInfo objects
         ArrayList<ChordInfo> chordInfoProgression = new ArrayList();
         for(int i=0; i<numerals.size(); i++){
             ChordInfo newChord = Resources.getChordInfoFromKeyAndNumeral(key, numerals.get(i));
@@ -44,35 +40,36 @@ public class ChordAgentV2 implements AgentIF {
         }
 
 
-
-
-        //4. Create Note objects for the instrument based on the pitches from chordProgression
-        //   This is where the rhythm/grove is "creatively" decided.
-        //   To keep this agent simple, the first chord will be played in the first bar, second chord in the second bar, etc...
-        //  *This is an opportunity for intelligently listening to the drummerAgent*
-
-        //i is current starting position
+        //i is current starting position for chords
         int i = 0;
-        //current ending position
+        //current ending position for chords
         int iEnd;
+
         Random r = new Random();
         //indicates which chordInfo we're on
         int chordInfoIndex = 0;
+
         //boolean that changes sometimes.
         // true makes the agent listen to hihat1,
         // false makes the agent listen to hihat2
         boolean getHiHat1 = true;
+
         //while we aren't at the end of the track
         while (i<number_of_bars*16){
+
+            //string list of the pitches in our current chord
             ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(chordInfoIndex).root, 4, chordInfoProgression.get(chordInfoIndex).inversion, chordInfoProgression.get(chordInfoIndex).chordType, "");
+
+            //listening to hiHet1
             if(getHiHat1){
+
+                //updates start position, adds possibility for delay before next chord
                 int chance = r.nextInt(7);
                 if (i % 2 != 0) {
                     int startDelay = r.nextInt(4);
-                    i += 1;
+                    i += startDelay;
                 }
                 if(drumFrequencies.get(0)<10 && drumFrequencies.get(1)<10) {
-                    chance = r.nextInt(7);
                     if (chance == 2) {
                         int startDelay = r.nextInt(6);
                         i += startDelay;
@@ -86,35 +83,49 @@ public class ChordAgentV2 implements AgentIF {
                     }
                 }
 
+                i = findNextHiHat(i, drumFrequencies.get(0));
                 iEnd = findNextHiHat(i, drumFrequencies.get(0));
                 chance = r.nextInt(3);
+
+                //possibility to make notes longer
                 while(chance==2 && iEnd-i<12){
                     iEnd = findNextHiHat(iEnd, drumFrequencies.get(0));
                     chance = r.nextInt(5);
                 }
             }
+
+            //listening to hiHat2
             else{
 
-                iEnd = findNextHiHat(i, drumFrequencies.get(1));
-                int chance = r.nextInt(4);
+                //updates start position, adds possibility for delay before next chord
+                int chance = r.nextInt(5);
+                if (i % 2 != 0) {
+                    int startDelay = r.nextInt(3);
+                    i += startDelay;
+                }
+                if(drumFrequencies.get(0)<10 && drumFrequencies.get(1)<10) {
+                    if (chance == 4) {
+                        int startDelay = r.nextInt(6);
+                        i += startDelay;
+                    }
+                }
+                else{
+                    chance = r.nextInt(9);
+                    if (chance == 1) {
+                        int startDelay = r.nextInt(5);
+                        i += startDelay;
+                    }
+                }
 
-                //delay start
-                while(chance==2){
+                i = findNextHiHat(i, drumFrequencies.get(1));
+                iEnd = findNextHiHat(i, drumFrequencies.get(1));
+                chance = r.nextInt(3);
+
+                //possibility to make notes longer
+                while(chance==2 && iEnd-i<12){
                     iEnd = findNextHiHat(iEnd, drumFrequencies.get(1));
                     chance = r.nextInt(5);
                 }
-
-                //make chords start on downbeat
-                if(i%2!=0){
-                    i+=1;
-                }
-            }
-
-            //swap beginning and end if they happened to get mixed up
-            if(iEnd<i){
-                int temp = i;
-                i = iEnd;
-                iEnd = temp;
             }
 
             //don't let ending positions past the number of bars
@@ -123,9 +134,10 @@ public class ChordAgentV2 implements AgentIF {
             }
 
             //arpeggios:
-            //must be length of 6 or greater
+            //must be length of 2 or greater, 1/4 chance of arpeggio
             int arp = r.nextInt(4);
             if(iEnd-i>=2 && arp == 3){
+
                 //moves end point of end of chord up.
                 //-1 because the first note's starting position won't change
                 for (int w = 0; w < currChordNotes.size()-1; w++){
@@ -140,11 +152,13 @@ public class ChordAgentV2 implements AgentIF {
                             i = findNextHiHat(i, drumFrequencies.get(r.nextInt(2)));
                         }
                     }
+                    //place arpeggio notes
                     if(iEnd<i){
                         int temp = i;
                         i = iEnd;
                         iEnd = temp;
                     }
+
                     if (iEnd == i){
                         iEnd+=r.nextInt(3)+1;
                     }
@@ -190,16 +204,6 @@ public class ChordAgentV2 implements AgentIF {
             }
 
         }
-//        for (int i = 0; i < chordInfoProgression.size(); i++) {
-//            ArrayList<String> currChordNotes = resources.getChord(chordInfoProgression.get(i).root, 4, chordInfoProgression.get(i).inversion, chordInfoProgression.get(i).chordType, "");
-//            for (int j = 0; j < currChordNotes.size(); j++) {
-//                for (int k = i; k < number_of_bars; k+=4) {
-//                    Note currNote = new Note(k * 16, currChordNotes.get(j), 16, instruments.get(0).getInstrumentId());
-//                    instruments.get(0).addNote(currNote);
-//                }
-//            }
-//        }
-        //TODO: make chord listen to the drummer agent
         return toString();
     }
 
