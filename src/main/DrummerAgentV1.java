@@ -103,11 +103,6 @@ public class DrummerAgentV1 implements AgentIF {
             }
         }
 
-        ArrayList<Integer> freq = getFrequencies();
-        for(int i = 0; i < freq.size(); i++){
-            System.out.println(freq.get(i));
-        }
-
         return toString();
     }
 
