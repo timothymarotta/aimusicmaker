@@ -10,6 +10,12 @@ public class ChordAgentV2 implements AgentIF {
     ArrayList<Integer> drumFrequencies;
     String key;
 
+    /**
+     * Constructor for ChordV1 Object
+     * drumFrequenciesIn- a list of the frequencies at which different parts of the drums are in the song
+     * keyIn- the key that the music will be in
+     * bpm- the beats per minute, or the tempo
+     */
     public ChordAgentV2(ArrayList<Integer> drumFrequenciesIn, String keyIn, int bpmIn){
         drumFrequencies = drumFrequenciesIn;
         Resources resources = new Resources();
@@ -21,6 +27,12 @@ public class ChordAgentV2 implements AgentIF {
         }
         bpm = bpmIn;
     }
+
+    /**
+     * Picks a chord progression and places chords differently depending on the drum frequencies
+     * @param number_of_bars is the number of measures in the song Ex: 8
+     * @returns A string in the format that the environment needs. The returned string will be written in a file once returned.
+     */
     @Override
     public String makeMusic(int number_of_bars) throws Exception{
         Resources resources = new Resources();
@@ -207,6 +219,11 @@ public class ChordAgentV2 implements AgentIF {
         return toString();
     }
 
+    /**
+     * Based on where you are currently in the song, it will find the next time the kick in the drum is present in the song
+     * @param min is the place you currently are on in the song
+     * @returns An int of the starting position of the next kick
+     */
     //given the min starting pos, the program will return the next starting position of a kick
     public int findNextKick(int min){
         int pos = 0;
@@ -216,6 +233,11 @@ public class ChordAgentV2 implements AgentIF {
         return pos;
     }
 
+    /**
+     * Based on where you are currently in the song, it will find the next time the snare in the drum is present in the song
+     * @param min is the place you currently are on in the song
+     * @returns An int of the starting position of the next snare
+     */
     public int findNextSnare(int min){
         int pos = 0;
         while (pos<=min){
@@ -223,8 +245,15 @@ public class ChordAgentV2 implements AgentIF {
         }
         return pos;
     }
+
     //given the min starting pos, the program will return the next starting position of a hiHat
     //frequecy is passed into this one and not kick because this will specify which hiHat (since there are two frequencies)
+    /**
+     * Based on where you are currently in the song, it will find the next time the hiHat in the drum is present in the song
+     * @param min is the place you currently are on in the song
+     * @param freq is the the frequency of which hiHat you want (there are two hiHats
+     * @returns An int of the starting position of the next desired hiHat
+     */
     public int findNextHiHat(int min, int freq){
         int pos = 0;
         while (pos<min){
@@ -233,6 +262,10 @@ public class ChordAgentV2 implements AgentIF {
         return pos;
     }
 
+    /**
+     * Passes list of instruments and bpm to the resources's toString
+     * @returns A string in the format that the environment can read
+     */
     public String toString(){
         return Resources.toString(instruments, bpm);
     }
