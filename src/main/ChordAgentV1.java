@@ -12,7 +12,7 @@ public class ChordAgentV1 implements AgentIF {
     String key;
 
     /**
-     * Constructor for ChordV1 Object
+     * Constructor for ChordV1 Agent
      * keyIn- the key that the music will be in
      * bpm- the beats per minute, or the tempo
      */

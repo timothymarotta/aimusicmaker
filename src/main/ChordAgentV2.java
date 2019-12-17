@@ -11,7 +11,7 @@ public class ChordAgentV2 implements AgentIF {
     String key;
 
     /**
-     * Constructor for ChordV1 Object
+     * Constructor for ChordV2 Agent
      * drumFrequenciesIn- a list of the frequencies at which different parts of the drums are in the song
      * keyIn- the key that the music will be in
      * bpm- the beats per minute, or the tempo
