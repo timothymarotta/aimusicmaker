@@ -76,13 +76,12 @@ public class DrummerAgentV1 implements AgentIF {
         }
 
 
-        //if tempo is fast, double all freq to make the drum less frantic sounding
-        if(bpm>125){
+        //if tempo is fast, double all freq except kick to make the drum less frantic sounding
+        if(bpm>150){
             hiHatFrequency *= 2;
             hiHatFrequency2 *= 2;
             hiHatFrequency2 += 1;
             snareFrequency *= 2;
-            kickFrequency *= 2;
             miscFrequency *= 2;
         }
 

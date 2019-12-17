@@ -76,31 +76,40 @@ public class ChordAgentV2 implements AgentIF {
             if(getHiHat1){
 
                 //updates start position, adds possibility for delay before next chord
-                int chance = r.nextInt(7);
-                if (i % 2 != 0) {
-                    int startDelay = r.nextInt(4);
+                int chance = r.nextInt(5);
+                if (i % 2 != 0 && chance==3 && bpm<=150) {
+                    int startDelay = r.nextInt(3);
                     i += startDelay;
                 }
-                if(drumFrequencies.get(0)<10 && drumFrequencies.get(1)<10) {
+                if(drumFrequencies.get(0)<5 && drumFrequencies.get(1)<5 && chance == 2 && bpm<=150) {
                     if (chance == 2) {
-                        int startDelay = r.nextInt(6);
+                        int startDelay = r.nextInt(3);
                         i += startDelay;
                     }
                 }
                 else{
                     chance = r.nextInt(9);
                     if (chance == 2) {
-                        int startDelay = r.nextInt(5);
+                        int startDelay = r.nextInt(2);
                         i += startDelay;
                     }
                 }
 
-                i = findNextHiHat(i, drumFrequencies.get(0));
-                iEnd = findNextHiHat(i, drumFrequencies.get(0));
-                chance = r.nextInt(3);
+                chance = r.nextInt(4);
+                if(chance==0){
+                    i = findNextKick(i);
+                }
+                else if(chance==1){
+                    i = findNextSnare(i);
+                }
+                else {
+                    findNextHiHat(i, drumFrequencies.get(1));
+                }
+                iEnd = findNextHiHat(i+1, drumFrequencies.get(0));
 
+                chance = r.nextInt(3);
                 //possibility to make notes longer
-                while(chance==2 && iEnd-i<12){
+                while(chance==2 && iEnd-i<8){
                     iEnd = findNextHiHat(iEnd, drumFrequencies.get(0));
                     chance = r.nextInt(5);
                 }
@@ -111,11 +120,11 @@ public class ChordAgentV2 implements AgentIF {
 
                 //updates start position, adds possibility for delay before next chord
                 int chance = r.nextInt(5);
-                if (i % 2 != 0) {
+                if (i % 2 != 0 && chance == 3 && bpm<=150) {
                     int startDelay = r.nextInt(3);
                     i += startDelay;
                 }
-                if(drumFrequencies.get(0)<10 && drumFrequencies.get(1)<10) {
+                if(drumFrequencies.get(0)<5 && drumFrequencies.get(1)<5 && chance == 2 && bpm<=150) {
                     if (chance == 4) {
                         int startDelay = r.nextInt(6);
                         i += startDelay;
@@ -124,17 +133,25 @@ public class ChordAgentV2 implements AgentIF {
                 else{
                     chance = r.nextInt(9);
                     if (chance == 1) {
-                        int startDelay = r.nextInt(5);
+                        int startDelay = r.nextInt(3);
                         i += startDelay;
                     }
                 }
 
-                i = findNextHiHat(i, drumFrequencies.get(1));
-                iEnd = findNextHiHat(i, drumFrequencies.get(1));
-                chance = r.nextInt(3);
+                chance = r.nextInt(4);
+                if(chance==0){
+                    i = findNextKick(i);
+                }
+                else if(chance==1){
+                    i = findNextSnare(i);
+                }
+                else {
+                    findNextHiHat(i, drumFrequencies.get(1));
+                }
+                iEnd = findNextHiHat(i+1, drumFrequencies.get(1));
 
                 //possibility to make notes longer
-                while(chance==2 && iEnd-i<12){
+                while(chance==2 && iEnd-i<8){
                     iEnd = findNextHiHat(iEnd, drumFrequencies.get(1));
                     chance = r.nextInt(5);
                 }
@@ -146,9 +163,9 @@ public class ChordAgentV2 implements AgentIF {
             }
 
             //arpeggios:
-            //must be length of 2 or greater, 1/4 chance of arpeggio
-            int arp = r.nextInt(4);
-            if(iEnd-i>=2 && arp == 3){
+            //notes be length of 2 or greater, 1/3 chance of arpeggio
+            int arp = r.nextInt(3);
+            if(iEnd-i>=2 && arp == 2){
 
                 //moves end point of end of chord up.
                 //-1 because the first note's starting position won't change
@@ -180,16 +197,14 @@ public class ChordAgentV2 implements AgentIF {
                 }
             }
             else {
+                //swap beginning and end if they happened to get mixed up
+                if(iEnd<i){
+                    int temp = i;
+                    i = iEnd;
+                    iEnd = temp;
+                }
                 for (int j = 0; j < currChordNotes.size(); j++) {
-                    //swap beginning and end if they happened to get mixed up
-                    if(iEnd<i){
-                        int temp = i;
-                        i = iEnd;
-                        iEnd = temp;
-                    }
-                    if (iEnd == i){
-                        iEnd+=r.nextInt(3)+1;
-                    }
+                    //place notes
                     Note currNote = new Note(i, currChordNotes.get(j), iEnd - i, instruments.get(0).getInstrumentId());
                     instruments.get(0).addNote(currNote);
                 }
