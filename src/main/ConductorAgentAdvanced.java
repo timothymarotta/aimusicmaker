@@ -6,6 +6,11 @@ public class ConductorAgentAdvanced implements AgentIF {
     String key;
     ArrayList<Instrument> instruments = new ArrayList<Instrument>();
 
+    /**
+     * Constructor for Advanced Conductor Agent
+     * keyIn- the key that the music will be in
+     * bpm- the beats per minute, or the tempo
+     */
     public ConductorAgentAdvanced(int bpmIn, String keyIn){
         Resources resources = new Resources();
         if (keyIn.equals("random") || keyIn.equals("r")){
@@ -17,6 +22,11 @@ public class ConductorAgentAdvanced implements AgentIF {
         bpm = bpmIn;
     }
 
+    /**
+     * Coordinates Drum agent and Chord Agent. Calls drum agent, passes frequencies to chord agent.
+     * @param number_of_bars is the number of measures in the song Ex: 8
+     * @returns A string in the format that the environment needs. This string will have all of the notes and instruments from the chord and drum agents. The returned string will be written in a file once returned.
+     */
     @Override
     public String makeMusic(int number_of_bars) throws Exception {
 
@@ -33,6 +43,10 @@ public class ConductorAgentAdvanced implements AgentIF {
         return toString();
     }
 
+    /**
+     * Passes list of instruments and bpm to the resources's toString
+     * @returns A string in the format that the environment can read
+     */
     public String toString(){
         return Resources.toString(instruments, bpm);
     }

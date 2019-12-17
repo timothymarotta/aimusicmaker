@@ -24,6 +24,11 @@ public class DrummerAgentV1 implements AgentIF {
         instruments.add(drum);
     }
 
+    /**
+     * Edits frequencies of drums and adds them to the drum instrument in the instrument list
+     * @param number_of_bars is the number of measures in the song Ex: 8
+     * @returns A string in the format that the environment needs (string consists of instruments and notes in the drummer agent). The returned string will be written in a file once returned.
+     */
     @Override
     public String makeMusic(int number_of_bars) {
         int songLength = number_of_bars * 16;
@@ -32,8 +37,10 @@ public class DrummerAgentV1 implements AgentIF {
         String kickPitch = Resources.getKickPitch();
         String misc = Resources.getMiscellaneousPitch();
 
-        //both even
-        if(hiHatFrequency % hiHatFrequency2 == 0 || hiHatFrequency2 % hiHatFrequency == 0){
+        //the following ensures that the hihat frequencies are not the same, and one is odd and one is even
+
+        //both the same
+        if(hiHatFrequency - hiHatFrequency2 == 0 || hiHatFrequency2 - hiHatFrequency == 0){
             hiHatFrequency2 += 1;
         }
         //both odd
@@ -48,28 +55,28 @@ public class DrummerAgentV1 implements AgentIF {
 
         }
 
+        //makes kick divisible by four
         if(kickFrequency%4!=0) {
             kickFrequency += 4 - kickFrequency % 4;
         }
 
+        //makes snare freq closer to kick freq
         snareFrequency = r.nextInt(kickFrequency-1+1)+1;
 
         snareFrequency += snareFrequency + kickFrequency % snareFrequency;
 
+        //checks snare freq is even
         if (snareFrequency % 2 != 0){
             snareFrequency += 1;
         }
 
-
+        //double checks snare is less than kick freq, corrects if needed
         while(snareFrequency >= kickFrequency){
             snareFrequency -= 2;
         }
 
-        if (kickFrequency<3){
-            kickFrequency /= 2;
-        }
 
-
+        //if tempo is fast, double all freq to make the drum less frantic sounding
         if(bpm>125){
             hiHatFrequency *= 2;
             hiHatFrequency2 *= 2;
@@ -79,7 +86,7 @@ public class DrummerAgentV1 implements AgentIF {
             miscFrequency *= 2;
         }
 
-
+        //adds notes to drum instrument
         for (int i=0; i<songLength; i++){
             if(i%hiHatFrequency==0){
                 drum.addNote(i, hiHatPitch, 1);
@@ -87,9 +94,7 @@ public class DrummerAgentV1 implements AgentIF {
             if(i%hiHatFrequency2==0){
                 drum.addNote(i, hiHatPitch, 1);
             }
-//            if(i%snareFrequency==0){
-//                drum.addNote(i, snarePitch, 1);
-//            }
+            //endures the snare is not added if the kick is added in that same spot.
             if(i%kickFrequency==0){
                 drum.addNote(i, kickPitch, 1);
             }
@@ -106,10 +111,18 @@ public class DrummerAgentV1 implements AgentIF {
         return toString();
     }
 
+    /**
+     * Passes list of instruments and bpm to the resources's toString
+     * @returns A string in the format that the environment can read
+     */
     public String toString(){
         return Resources.toString(instruments, bpm);
     }
 
+    /**
+     * creates a list of the frequencies of all drum components
+     * @returns A list of the frequencies of all drum components
+     */
     public ArrayList<Integer> getFrequencies(){
         ArrayList<Integer> frequencies = new ArrayList<Integer>();
         frequencies.add(hiHatFrequency);

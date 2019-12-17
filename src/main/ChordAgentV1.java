@@ -11,6 +11,11 @@ public class ChordAgentV1 implements AgentIF {
     ArrayList<Integer> drumFrequencies;
     String key;
 
+    /**
+     * Constructor for ChordV1 Agent
+     * keyIn- the key that the music will be in
+     * bpm- the beats per minute, or the tempo
+     */
     public ChordAgentV1(String keyIn, int bpmIn){
         Resources resources = new Resources();
         if (keyIn.equals("r")){
@@ -21,6 +26,12 @@ public class ChordAgentV1 implements AgentIF {
         }
         bpm = bpmIn;
     }
+
+    /**
+     * Picks a chord progression and places a chord at the beginning of every measure
+     * @param number_of_bars is the number of measures in the song Ex: 8
+     * @returns A string in the format that the environment needs. The returned string will be written in a file once returned.
+     */
     @Override
     public String makeMusic(int number_of_bars) throws Exception{
         Resources resources = new Resources();
@@ -58,6 +69,10 @@ public class ChordAgentV1 implements AgentIF {
         return toString();
     }
 
+    /**
+     * Passes list of instruments and bpm to the resources's toString
+     * @returns A string in the format that the environment can read
+     */
     public String toString(){
         return Resources.toString(instruments, bpm);
     }
